@@ -1,0 +1,155 @@
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header Block -->
+    <div class="flex items-center gap-3 mb-8">
+      <button
+        routerLink="/cart"
+        class="p-2 bg-white border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-100 transition-colors"
+      >
+        <mat-icon class="block">arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1 class="text-2xl font-black text-gray-900 tracking-tight">
+          Bank Transfer Checkout
+        </h1>
+        <p class="text-xs text-gray-500 mt-0.5">
+          Complete your purchase using a secure direct bank transaction.
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Dynamic Splitting Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <!-- Left Column: Our Bank Transfer Credentials -->
+      <div
+        class="bg-gray-950 text-gray-200 rounded-2xl p-6 shadow-sm border border-gray-900 flex flex-col gap-5"
+      >
+        <div>
+          <span
+            class="text-[10px] font-bold uppercase tracking-widest text-amber-500"
+            >Step 1</span
+          >
+          <h2 class="text-lg font-bold text-white mt-0.5">
+            Transfer Funds To Us
+          </h2>
+          <p class="text-xs text-gray-400 mt-1 leading-relaxed">
+            Please manually transfer your cart total amount to our verified
+            global trade account below via your banking app:
+          </p>
+        </div>
+
+        <hr class="border-gray-800" />
+
+        <div class="flex flex-col gap-3.5 text-sm">
+          <div>
+            <span class="text-xs text-gray-500 block">Bank Institution</span>
+            <span class="font-medium text-white">{{ storeBankName }}</span>
+          </div>
+          <div>
+            <span class="text-xs text-gray-500 block"
+              >IBAN / Account Number</span
+            >
+            <span
+              class="font-mono font-bold tracking-wider text-amber-500 selection:bg-amber-600 selection:text-white select-all"
+              >{{ storeIBAN }}</span
+            >
+          </div>
+          <div>
+            <span class="text-xs text-gray-500 block">SWIFT / BIC Code</span>
+            <span class="font-mono text-white select-all">{{
+              storeSwift
+            }}</span>
+          </div>
+        </div>
+
+        <div
+          class="bg-gray-900/50 rounded-xl p-3 border border-gray-800/60 flex gap-3 items-start"
+        >
+          <mat-icon class="text-amber-500 shrink-0 !h-5 !w-5 !text-[20px]"
+            >info</mat-icon
+          >
+          <p class="text-[11px] text-gray-400 leading-tight">
+            Your item inventory reservations will remain locked for 24 hours
+            awaiting transfer verification clearance.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Column: Verification Input Fields -->
+      <div
+        class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col gap-5"
+      >
+        <div>
+          <span
+            class="text-[10px] font-bold uppercase tracking-widest text-amber-600"
+            >Step 2</span
+          >
+          <h2 class="text-lg font-bold text-gray-900 mt-0.5">
+            Confirm Your Details
+          </h2>
+          <p class="text-xs text-gray-400 mt-1">
+            Provide the account details you used to execute the transfer so our
+            finance team can verify your payment.
+          </p>
+        </div>
+
+        <!-- Input Form Element Block -->
+        <div class="flex flex-col gap-4">
+          <!-- Sender Account Name String -->
+          <div class="flex flex-col gap-1.5">
+            <label for="accName" class="text-xs font-semibold text-gray-700"
+              >Sender Account Name</label
+            >
+            <input
+              id="accName"
+              type="text"
+              [value]="senderAccountName()"
+              (input)="senderAccountName.set($any($event.target).value)"
+              placeholder="e.g. John Doe"
+              class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-amber-600 transition-colors"
+            />
+          </div>
+
+          <!-- Sender Bank Account Number String -->
+          <div class="flex flex-col gap-1.5">
+            <label for="accNum" class="text-xs font-semibold text-gray-700"
+              >Your Bank Account Number / IBAN</label
+            >
+            <input
+              id="accNum"
+              type="text"
+              [value]="senderAccountNumber()"
+              (input)="senderAccountNumber.set($any($event.target).value)"
+              placeholder="Enter account or IBAN number"
+              class="w-full px-4 py-3 font-mono text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-amber-600 transition-colors"
+            />
+          </div>
+        </div>
+
+        <!-- Order Button Trigger Processing Terminal -->
+        <button
+          (click)="handlePlaceOrder()"
+          [disabled]="!isFormValid() || isProcessing()"
+          class="w-full mt-2 bg-amber-600 hover:bg-amber-700 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:shadow-none text-white font-bold py-4 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 tracking-wide text-sm uppercase"
+        >
+          @if (isProcessing()) {
+            <span
+              class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"
+            ></span>
+            <span>Verifying Payment...</span>
+          } @else {
+            <mat-icon>verified</mat-icon>
+            <span>Confirm & Place Order</span>
+          }
+        </button>
+
+        <div
+          class="flex items-center justify-center gap-2 text-[11px] text-gray-400 text-center"
+        >
+          <mat-icon class="!h-4 !w-4 !text-[16px]">lock</mat-icon>
+          <span>Encrypted payment records. No direct credentials stored.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

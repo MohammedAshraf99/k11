@@ -1,0 +1,64 @@
+<!-- عنوان القسم -->
+<div class="flex justify-center mt-8 px-4">
+  <h5 class="text-xl font-bold uppercase tracking-wide text-gray-800">
+    <span class="text-amber-600 font-medium">WHY</span> you choose our SHOP
+  </h5>
+</div>
+
+<!-- حاوية البطاقات -->
+<!-- على الهاتف: تتحول لشريط تمرير أفقي ناعم يدعم الـ Snap -->
+<!-- على الكمبيوتر: تتحول لشبكة عادية مكونة من 4 أعمدة -->
+<div 
+  #scrollContainer
+  (scroll)="onScroll(scrollContainer)"
+  class="mx-auto max-w-7xl flex overflow-x-auto 
+  snap-x snap-mandatory scroll-smooth gap-6 p-5 mt-4 md:grid md:grid-cols-4 no-scrollbar"
+>
+  
+  <!-- البطاقة 1 -->
+  <div class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto group transform transition duration-300 border border-gray-100 rounded-2xl p-6 bg-white shadow-sm items-center flex flex-col text-center">
+    <div class="p-3 bg-amber-50 rounded-full text-amber-600 mb-3">
+      <mat-icon class="!h-10 !w-10 !text-[40px] flex items-center justify-center">payments</mat-icon>
+    </div>
+    <h5 class="font-semibold text-gray-800 text-lg">Payment</h5>
+    <p class="text-sm text-gray-500 mt-1">Secure Payment Options</p>
+  </div>
+
+  <!-- البطاقة 2 -->
+  <div class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto group transform transition duration-300 border border-gray-100 rounded-2xl p-6 bg-white shadow-sm items-center flex flex-col text-center">
+    <div class="p-3 bg-amber-50 rounded-full text-amber-600 mb-3">
+      <mat-icon class="!h-10 !w-10 !text-[40px] flex items-center justify-center">moped</mat-icon>
+    </div>
+    <h5 class="font-semibold text-gray-800 text-lg">Shipping</h5>
+    <p class="text-sm text-gray-500 mt-1">Shipping in 2 to 4 days</p>
+  </div>
+
+  <!-- 3 البطاقة -->
+  <div class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto group transform transition duration-300 border border-gray-100 rounded-2xl p-6 bg-white shadow-sm items-center flex flex-col text-center">
+    <div class="p-3 bg-amber-50 rounded-full text-amber-600 mb-3">
+      <mat-icon class="!h-10 !w-10 !text-[40px] flex items-center justify-center">security</mat-icon>
+    </div>
+    <h5 class="font-semibold text-gray-800 text-lg">Guarantee</h5>
+    <p class="text-sm text-gray-500 mt-1">30-day money-back guarantee</p>
+  </div>
+
+  <!-- البطاقة 4 -->
+  <div class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto group transform transition duration-300 border border-gray-100 rounded-2xl p-6 bg-white shadow-sm items-center flex flex-col text-center">
+    <div class="p-3 bg-amber-50 rounded-full text-amber-600 mb-3">
+      <mat-icon class="!h-10 !w-10 !text-[40px] flex items-center justify-center">chat</mat-icon>
+    </div>
+    <h5 class="font-semibold text-gray-800 text-lg">Chat</h5>
+    <p class="text-sm text-gray-500 mt-1">24/7 customer support</p>
+  </div>
+
+</div>
+
+<!-- نقاط التحكم (Bullets) - تظهر على الهواتف والتابلت فقط وتختفي على الكمبيوتر -->
+<div class="flex justify-center gap-2 mt-2 md:hidden">
+  <button 
+    *ngFor="let dot of [0, 1, 2, 3]; let i = index"
+    (click)="scrollToCard(scrollContainer, i)"
+    [class]="currentActiveCard === i ? 'w-6 bg-amber-600' : 'w-2 bg-gray-300'"
+    class="h-2 rounded-full transition-all duration-300 aria-label='Go to slide'"
+  ></button>
+</div>

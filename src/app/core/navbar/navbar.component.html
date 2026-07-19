@@ -1,0 +1,196 @@
+<!-- Main Navbar Wrapper -->
+<nav
+  class="relative z-40 border-b border-gray-100 bg-white px-4 py-3 shadow-sm md:px-8"
+>
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-2">
+    <!-- Left: Brand Name -->
+    <div class="flex items-center gap-2">
+      <!-- Mobile Menu Trigger Button -->
+      <button
+        mat-icon-button
+        (click)="toggleMobileMenu()"
+        class="block md:hidden text-gray-700"
+        aria-label="Toggle menu"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <a
+        routerLink="home"
+        class="text-xl font-bold tracking-tight text-gray-900 hover:text-amber-700 transition-colors"
+      >
+        K <span class="text-amber-600">11</span>
+      </a>
+    </div>
+
+    <!-- Center: Desktop Links (Hidden on Mobile) -->
+    <div class="hidden items-center gap-1 md:flex">
+      <a
+        routerLink="/"
+        class="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-amber-700 transition-all"
+      >
+        Products
+      </a>
+      <a
+        routerLink="/"
+        class="rounded-lg px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-all flex items-center gap-1"
+      >
+        <span
+          class="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500"
+        ></span>
+        Hot Deals
+      </a>
+
+      <!-- Desktop Category Dropdown (Triggers on Hover) -->
+      <div class="group relative">
+        <button
+          class="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-amber-700 transition-all"
+        >
+          <span>Categories</span>
+          <mat-icon
+            class="!h-4 !w-4 text-gray-400 transition-transform group-hover:rotate-180"
+            >expand_more</mat-icon
+          >
+        </button>
+
+        <!-- Dropdown Menu Box -->
+        <div
+          class="invisible absolute left-0 top-full w-48 origin-top-left scale-95 rounded-xl border border-gray-100 bg-white p-2 shadow-lg opacity-0 transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100"
+        >
+          <a
+            routerLink="/"
+            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800"
+          >
+            <mat-icon class="!h-4 !w-4 text-amber-600">air</mat-icon> Perfumes
+          </a>
+          <a
+            routerLink="/"
+            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800"
+          >
+            <mat-icon class="!h-4 !w-4 text-amber-600">cake</mat-icon> Balloons
+          </a>
+          <a
+            routerLink="/"
+            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800"
+          >
+            <mat-icon class="!h-4 !w-4 text-amber-600"
+              >featured_play_list</mat-icon
+            >
+            Gifts
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Quick Action (Cart/User placeholder to balance design) -->
+    <div class="flex items-center gap-2">
+      <button
+        mat-icon-button
+        class="hover:text-amber-700 transition-colors text-gray-700"
+        aria-label="Shopping Cart"
+      >
+        <a routerLink="/cart">
+          <mat-icon>shopping_cart</mat-icon>
+        </a>
+      </button>
+      <button
+        mat-icon-button
+        class="text-gray-700 hover:text-amber-700 transition-colors"
+        aria-label="liked_items"
+      >
+        <a routerLink="/wishlist">
+          <mat-icon class="hover:text-amber-700 transition-colors"
+            >favorite_border</mat-icon
+          >
+        </a>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ========================================== -->
+<!-- SMOOTH MOBILE SIDEBAR (DRAWER)             -->
+<!-- ========================================== -->
+
+<!-- Backdrop overlay when sidebar is open -->
+<div
+  class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+  [class]="isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'"
+  (click)="toggleMobileMenu()"
+></div>
+
+<!-- Drawer Panel -->
+<aside
+  class="fixed bottom-0 top-0 left-0 z-50 w-72 transform bg-white p-5 shadow-2xl transition-transform duration-300 ease-out flex flex-col"
+  [class]="isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'"
+>
+  <!-- Sidebar Header -->
+  <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+    <span class="text-lg font-bold text-gray-900">Menu</span>
+    <button mat-icon-button (click)="toggleMobileMenu()" class="text-gray-500">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Sidebar Links -->
+  <div class="mt-4 flex flex-col gap-1 overflow-y-auto flex-grow">
+    <a
+      routerLink="/"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
+    >
+      <mat-icon class="text-gray-400">storefront</mat-icon> Products
+    </a>
+    <a
+      routerLink="/"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-red-600 hover:bg-red-50"
+    >
+      <mat-icon class="text-red-500">local_fire_department</mat-icon> Hot Deals
+    </a>
+
+    <hr class="my-2 border-gray-100" />
+
+    <!-- Mobile Accordion Section for Categories -->
+    <div>
+      <button
+        (click)="isDropdownOpen = !isDropdownOpen"
+        class="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
+      >
+        <div class="flex items-center gap-3">
+          <mat-icon class="text-gray-400">category</mat-icon>
+          <span>Categories</span>
+        </div>
+        <mat-icon
+          class="text-gray-400 transition-transform duration-200"
+          [class]="isDropdownOpen ? 'rotate-180' : ''"
+        >
+          expand_more
+        </mat-icon>
+      </button>
+
+      <!-- Sub-categories wrapper with height transition -->
+      <div
+        class="overflow-hidden transition-all duration-300 bg-gray-50/50 rounded-xl"
+        [class]="isDropdownOpen ? 'max-h-48 py-1 mt-1 pl-6' : 'max-h-0'"
+      >
+        <a
+          routerLink="/"
+          class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-amber-700"
+        >
+          • Perfumes
+        </a>
+        <a
+          routerLink="/"
+          class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-amber-700"
+        >
+          • Balloons
+        </a>
+        <a
+          routerLink="/"
+          class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-amber-700"
+        >
+          • Gifts
+        </a>
+      </div>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,106 @@
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-12">
+      
+      <!-- القسم الأيسر: معرض الصور (Product Image Gallery) -->
+      <section class="flex flex-col gap-4">
+        <!-- الصورة الرئيسية الكبيرة -->
+        <div class="w-full h-[400px] md:h-[500px] rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center relative group">
+          <img [src]="activeImage" [alt]="product.name" class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105">
+          <span *ngIf="product.discount" class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+            Save {{ product.discount }}%
+          </span>
+        </div>
+        
+        <!-- الصور المصغرة بالأسفل للتنقل -->
+        <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+          <button 
+            *ngFor="let img of product.images" 
+            (click)="setActiveImage(img)"
+            [class]="activeImage === img ? 'border-amber-600 ring-2 ring-amber-600/20' : 'border-gray-200 hover:border-amber-500'"
+            class="w-20 h-20 shrink-0 rounded-xl bg-gray-50 border-2 overflow-hidden p-2 transition-all duration-200">
+            <img [src]="img" alt="Thumbnail" class="w-full h-full object-contain">
+          </button>
+        </div>
+      </section>
+
+      <!-- القسم الأيمن: تفاصيل المنتج (Product Info & Actions) -->
+      <section class="flex flex-col justify-between gap-6">
+        <div>
+          <!-- اسم البراند والتصنيف -->
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-widest text-amber-600">{{ product.brand }}</span>
+            <div class="flex items-center gap-1 text-amber-500 text-sm font-medium">
+              <mat-icon class="!h-4 !w-4 !text-[16px]">star</mat-icon>
+              <span>{{ product.rating }}</span>
+              <span class="text-gray-400 font-normal text-xs">({{ product.reviewsCount }} reviews)</span>
+            </div>
+          </div>
+
+          <!-- اسم المنتج -->
+          <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2 tracking-tight">{{ product.name }}</h1>
+          <p class="text-sm text-gray-400 mt-1">Concentration: <span class="text-gray-700 font-medium">{{ product.type }}</span></p>
+
+          <!-- السعر -->
+          <div class="flex items-baseline gap-3 mt-4">
+            <span class="text-3xl font-black text-gray-950">${{ product.price }}</span>
+            <span *ngIf="product.oldPrice" class="text-lg text-gray-400 line-through">${{ product.oldPrice }}</span>
+          </div>
+
+          <!-- الوصف القصير -->
+          <p class="text-gray-600 text-sm leading-relaxed mt-6 border-t border-gray-100 pt-6">
+            {{ product.description }}
+          </p>
+
+          <!-- المكونات العطرية (Fragrance Notes) - ممتازة لمتجر العطور -->
+          <div class="mt-6">
+            <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Fragrance Notes</h4>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <span *ngFor="let note of product.notes" class="text-xs font-medium bg-amber-50 text-amber-800 px-3 py-1.5 rounded-lg border border-amber-100/50">
+                {{ note }}
+              </span>
+            </div>
+          </div>
+
+          <!-- خيارات الحجم (Size Selector) -->
+          <div class="mt-6">
+            <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Select Volume</h4>
+            <div class="flex gap-3 mt-2">
+              <button 
+                *ngFor="let size of product.sizes"
+                (click)="selectedSize = size"
+                [class]="selectedSize === size ? 'border-amber-600 bg-amber-50/50 text-amber-900 font-semibold' : 'border-gray-200 text-gray-600 hover:border-gray-400'"
+                class="px-4 py-2 border rounded-xl text-sm transition-all duration-200">
+                {{ size }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- أزرار التحكم: الكمية وإضافة للسلة -->
+        <div class="border-t border-gray-100 pt-6 mt-auto flex flex-col sm:flex-row gap-4">
+          <!-- عداد الكمية -->
+          <div class="flex items-center justify-between border border-gray-200 rounded-xl p-2 bg-gray-50 sm:w-32">
+            <button (click)="decreaseQty()" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
+              <mat-icon class="!h-4 !w-4 !text-[16px]">remove</mat-icon>
+            </button>
+            <span class="font-bold text-gray-900 text-sm select-none">{{ quantity }}</span>
+            <button (click)="increaseQty()" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
+              <mat-icon class="!h-4 !w-4 !text-[16px]">add</mat-icon>
+            </button>
+          </div>
+
+          <!-- زر الإضافة للسلة -->
+          <button (click)="handleAddToCart()" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 tracking-wide text-sm uppercase">
+            <mat-icon>shopping_bag</mat-icon>
+            Add To Cart
+          </button>
+        </div>
+
+      </section>
+
+    </div>
+  </div>
+</div>
+<app-card-carousel/>
