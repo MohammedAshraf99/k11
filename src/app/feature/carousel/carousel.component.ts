@@ -3,6 +3,7 @@ import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-carousel',
+    standalone: true,
     imports: [MatIcon],
     templateUrl: './carousel.component.html',
     styleUrl: './carousel.component.css'

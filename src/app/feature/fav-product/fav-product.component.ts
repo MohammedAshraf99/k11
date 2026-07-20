@@ -14,7 +14,8 @@ export interface PerfumeProduct {
 
 @Component({
     selector: 'app-fav-product',
-    imports: [MatIcon, CurrencyPipe],
+    imports: [MatIcon],
+    standalone: true,
     templateUrl: './fav-product.component.html',
     styleUrl: './fav-product.component.css'
 })

@@ -4,7 +4,8 @@ import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-card-carousel',
-    imports: [CardComponent, RouterLink],
+    imports: [CardComponent],
+    standalone: true,
     templateUrl: './card-carousel.component.html',
     styleUrl: './card-carousel.component.css'
 })

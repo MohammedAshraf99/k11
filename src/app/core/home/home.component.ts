@@ -6,7 +6,8 @@ import { NotFoundComponent } from "../not-found/not-found.component";
 
 @Component({
     selector: 'app-home',
-    imports: [CarouselComponent, CardCarouselComponent, InfoItemComponent, NotFoundComponent],
+    standalone: true,
+    imports: [CarouselComponent, CardCarouselComponent, InfoItemComponent],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'
 })

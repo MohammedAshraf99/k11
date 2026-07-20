@@ -65,9 +65,12 @@
 
   <!-- Indicator Dots -->
   <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-    <button *ngFor="let slide of [0, 1, 2]; let i = index"
-            (click)="setSlide(i)"
-            [class]="currentSlide === i ? 'w-8 bg-amber-500' : 'w-2 bg-white/40'"
-            class="h-2 rounded-full transition-all duration-300"></button>
+    @for (slide of [0, 1, 2]; track $index) {
+  <button 
+    (click)="setSlide($index)"
+    [class]="currentSlide === $index ? 'w-8 bg-amber-500' : 'w-2 bg-white/40'"
+    class="h-2 rounded-full transition-all duration-300">
+  </button>
+}
   </div>
 </div>

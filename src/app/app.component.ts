@@ -15,6 +15,7 @@ import { FavProductComponent } from "./feature/fav-product/fav-product.component
 
 @Component({
     selector: 'app-root',
+    standalone: true,
     imports: [RouterOutlet, FooterComponent, NavbarComponent,ToasterComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'

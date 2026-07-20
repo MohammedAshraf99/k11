@@ -5,6 +5,7 @@ import { ToasterService } from '../../services/toaster.service';
 import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-card',
+    standalone: true,
     imports: [MatButtonModule, MatIcon, RouterLink],
     templateUrl: './card.component.html',
     styleUrl: './card.component.css'
