@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 export class CardCarouselComponent {
 // تتبع رقم الكارت النشط حالياً (يبدأ من 0)
   activeCardIndex = 0;
+index: any;
 
   // دالة عند الضغط على النقطة: تنقل السكرول برفق للكارت المطلوب
   scrollToCard(container: HTMLElement, cardIndex: number) {

@@ -3,6 +3,7 @@ import { HomeComponent } from './core/home/home.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'product/:id',
     loadComponent: () =>
@@ -36,5 +37,4 @@ export const routes: Routes = [
         (m) => m.NotFoundComponent,
       ),
   },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];

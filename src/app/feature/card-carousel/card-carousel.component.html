@@ -34,10 +34,10 @@
 
 <!-- نقاط التحكم السفلى (Bullets) - تظهر فقط على الهواتف وتختفي في الشاشات الكبيرة (md:hidden) -->
 <div class="flex justify-center gap-2 mt-3 md:hidden">
-  @for(dot of [0, 1, 2, 3]; track $index) {
+  @for(dot of [0, 1, 2, 3]; track index) {
   <button
-    (click)="scrollToCard(cardContainer, $index)"
-    [class]="activeCardIndex === $index ? 'w-6 bg-amber-600' : 'w-2 bg-gray-300'"
+    (click)="scrollToCard(cardContainer, index)"
+    [class]="activeCardIndex === index ? 'w-6 bg-amber-600' : 'w-2 bg-gray-300'"
     class="h-2 rounded-full transition-all duration-300"
     aria-label="Go to slide"
   ></button>
