@@ -14,11 +14,10 @@ import { CheckoutComponent } from "./feature/checkout/checkout.component";
 import { FavProductComponent } from "./feature/fav-product/fav-product.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, FooterComponent, NavbarComponent, CardComponent, InfoItemComponent, CarouselComponent, CardCarouselComponent, ItemDetailsComponent, CartComponent, ToasterComponent, CheckoutComponent, FavProductComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [RouterOutlet, FooterComponent, NavbarComponent, CardComponent, InfoItemComponent, CarouselComponent, CardCarouselComponent, ItemDetailsComponent, CartComponent, ToasterComponent, CheckoutComponent, FavProductComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'k11';

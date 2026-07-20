@@ -13,11 +13,10 @@ interface CartItem {
 }
 
 @Component({
-  selector: 'app-cart',
-  standalone: true,
-  imports: [MatIcon,RouterLink],
-  templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css',
+    selector: 'app-cart',
+    imports: [MatIcon, RouterLink],
+    templateUrl: './cart.component.html',
+    styleUrl: './cart.component.css'
 })
 export class CartComponent {
 // 1. Reactive state using Writable Signals

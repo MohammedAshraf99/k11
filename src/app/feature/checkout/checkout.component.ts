@@ -4,11 +4,10 @@ import { ToasterService } from '../../services/toaster.service';
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
-  selector: 'app-checkout',
-  standalone: true,
-  imports: [MatIcon],
-  templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.css'
+    selector: 'app-checkout',
+    imports: [MatIcon],
+    templateUrl: './checkout.component.html',
+    styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent{
   private readonly toastService = inject(ToasterService);

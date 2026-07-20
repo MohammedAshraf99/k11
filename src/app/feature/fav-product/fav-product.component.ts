@@ -13,11 +13,10 @@ export interface PerfumeProduct {
 }
 
 @Component({
-  selector: 'app-fav-product',
-  standalone: true,
-  imports: [MatIcon,CurrencyPipe],
-  templateUrl: './fav-product.component.html',
-  styleUrl: './fav-product.component.css',
+    selector: 'app-fav-product',
+    imports: [MatIcon, CurrencyPipe],
+    templateUrl: './fav-product.component.html',
+    styleUrl: './fav-product.component.css'
 })
 export class FavProductComponent {
   private readonly toastService = inject(ToasterService);

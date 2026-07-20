@@ -5,11 +5,10 @@ import { CommonModule } from '@angular/common';
 import { CardCarouselComponent } from "../card-carousel/card-carousel.component";
 
 @Component({
-  selector: 'app-item-details',
-  standalone: true,
-  imports: [MatIcon, CommonModule, CardCarouselComponent],
-  templateUrl: './item-details.component.html',
-  styleUrl: './item-details.component.css',
+    selector: 'app-item-details',
+    imports: [MatIcon, CommonModule, CardCarouselComponent],
+    templateUrl: './item-details.component.html',
+    styleUrl: './item-details.component.css'
 })
 export class ItemDetailsComponent implements OnInit {
   private toastService = inject(ToasterService);

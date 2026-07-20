@@ -3,11 +3,10 @@ import { CardComponent } from '../card/card.component';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-card-carousel',
-  standalone: true,
-  imports: [CardComponent,RouterLink],
-  templateUrl: './card-carousel.component.html',
-  styleUrl: './card-carousel.component.css'
+    selector: 'app-card-carousel',
+    imports: [CardComponent, RouterLink],
+    templateUrl: './card-carousel.component.html',
+    styleUrl: './card-carousel.component.css'
 })
 export class CardCarouselComponent {
 // تتبع رقم الكارت النشط حالياً (يبدأ من 0)
