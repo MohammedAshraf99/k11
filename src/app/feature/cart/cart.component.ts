@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { EmptyComponent } from "../empty/empty.component";
 
 interface CartItem {
   id: number;
@@ -14,8 +15,9 @@ interface CartItem {
 
 @Component({
     selector: 'app-cart',
-    imports: [MatIcon, RouterLink],
-    templateUrl: './cart.component.html',
+    standalone: true,
+    imports: [MatIcon, RouterLink, EmptyComponent],
+  templateUrl: './cart.component.html',
     styleUrl: './cart.component.css'
 })
 export class CartComponent {

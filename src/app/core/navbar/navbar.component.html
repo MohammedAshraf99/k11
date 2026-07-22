@@ -32,7 +32,7 @@
         Products
       </a>
       <a
-        routerLink="/"
+        routerLink="category/deals"
         class="rounded-lg px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-all flex items-center gap-1"
       >
         <span
@@ -48,7 +48,7 @@
         >
           <span>Categories</span>
           <mat-icon
-            class="!h-4 !w-4 text-gray-400 transition-transform group-hover:rotate-180"
+            class="h-4 w-4 text-gray-400 transition-transform group-hover:rotate-180"
             >expand_more</mat-icon
           >
         </button>
@@ -58,22 +58,22 @@
           class="invisible absolute left-0 top-full w-48 origin-top-left scale-95 rounded-xl border border-gray-100 bg-white p-2 shadow-lg opacity-0 transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100"
         >
           <a
-            routerLink="/"
+            routerLink="category/perfumes"
             class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800"
           >
-            <mat-icon class="!h-4 !w-4 text-amber-600">air</mat-icon> Perfumes
+            <mat-icon class="h-4 w-4 text-amber-600">air</mat-icon> Perfumes
           </a>
           <a
-            routerLink="/"
+            routerLink="category/balloons"
             class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800"
           >
-            <mat-icon class="!h-4 !w-4 text-amber-600">cake</mat-icon> Balloons
+            <mat-icon class="h-4 w-4 text-amber-600">cake</mat-icon> Balloons
           </a>
           <a
-            routerLink="/"
+            routerLink="category/gifts"
             class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800"
           >
-            <mat-icon class="!h-4 !w-4 text-amber-600"
+            <mat-icon class="h-4 w-4 text-amber-600"
               >featured_play_list</mat-icon
             >
             Gifts
@@ -135,16 +135,30 @@
   <!-- Sidebar Links -->
   <div class="mt-4 flex flex-col gap-1 overflow-y-auto flex-grow">
     <a
-      routerLink="/"
+      routerLink="catgeory/"
       class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
     >
       <mat-icon class="text-gray-400">storefront</mat-icon> Products
     </a>
     <a
-      routerLink="/"
+      routerLink="category/deals"
       class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-red-600 hover:bg-red-50"
     >
       <mat-icon class="text-red-500">local_fire_department</mat-icon> Hot Deals
+    </a>
+
+    <a
+      routerLink="category/balloons"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
+    >
+      <mat-icon class="h-4 w-4 text-amber-600">cake</mat-icon> Balloons
+    </a>
+    <a
+      routerLink="category/gifts"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
+    >
+      <mat-icon class="h-4 w-4 text-amber-600">featured_play_list</mat-icon>
+      Gifts
     </a>
 
     <hr class="my-2 border-gray-100" />
@@ -173,19 +187,19 @@
         [class]="isDropdownOpen ? 'max-h-48 py-1 mt-1 pl-6' : 'max-h-0'"
       >
         <a
-          routerLink="/"
+          routerLink="catgeory/perfumes"
           class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-amber-700"
         >
           • Perfumes
         </a>
         <a
-          routerLink="/"
+          routerLink="category/balloons"
           class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-amber-700"
         >
           • Balloons
         </a>
         <a
-          routerLink="/"
+          routerLink="category/gifts"
           class="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-amber-700"
         >
           • Gifts

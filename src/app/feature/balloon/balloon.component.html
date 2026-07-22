@@ -1,0 +1,158 @@
+<div
+  class="page-animate min-h-screen bg-linear-to-b from-sky-50 via-pink-50/30 to-purple-50/50 py-12 px-4 sm:px-6 lg:px-8"
+  dir="ltr"
+>
+  <div class="max-w-7xl mx-auto">
+    <!-- Header Section -->
+    <div
+      class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-pink-200/60 pb-8"
+    >
+      <div>
+        <div
+          class="flex items-center gap-2 text-xs font-bold tracking-wider text-pink-600 uppercase mb-2"
+        >
+          <a routerLink="/home" class="hover:underline">Home</a>
+          <span>/</span>
+          <span>Balloons & Party Supplies</span>
+        </div>
+        <h1
+          class="text-3xl md:text-4xl font-black text-slate-900 flex items-center gap-3"
+        >
+          <mat-icon class="text-pink-500 !w-9 !h-9 !text-[36px]"
+            >celebration</mat-icon
+          >
+          {{ categoryTitle() }}
+        </h1>
+        <p class="text-sm text-slate-600 mt-2 font-medium">
+          Bring your events to life with custom arch setups, helium bouquets,
+          and metallic numbers!
+        </p>
+      </div>
+
+      <span
+        class="text-xs font-bold text-purple-700 bg-purple-100/80 px-4 py-2 rounded-full border border-purple-200 self-start md:self-auto"
+      >
+        Showing: {{ balloons().length }} Balloon Items
+      </span>
+    </div>
+
+    <!-- Balloons Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for (balloon of balloons(); track balloon.id) {
+        <div
+          class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-xs hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+        >
+          <div>
+            <!-- Image Frame -->
+            <div class="relative aspect-4/3 overflow-hidden bg-slate-100">
+              <img
+                [src]="balloon.image"
+                [alt]="balloon.name"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+
+              <!-- Badges Top -->
+              <div
+                class="absolute top-4 left-4 flex flex-col gap-1.5 items-start"
+              >
+                <span
+                  class="bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+                >
+                  {{ balloon.type }}
+                </span>
+              </div>
+
+              <!-- Helium Compatibility Tag -->
+              @if (balloon.heliumReady) {
+                <span
+                  class="absolute bottom-3 right-3 bg-emerald-500/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1"
+                >
+                  <mat-icon class="!w-3.5 !h-3.5 !text-[14px]">air</mat-icon>
+                  Helium Compatible
+                </span>
+              }
+            </div>
+
+            <!-- Details -->
+            <div class="p-6">
+              <span
+                class="text-xs font-bold tracking-wider text-pink-600 uppercase block mb-1"
+              >
+                {{ balloon.theme }}
+              </span>
+              <h3
+                class="font-black text-xl text-slate-900 mb-3 group-hover:text-pink-600 transition-colors"
+              >
+                {{ balloon.name }}
+              </h3>
+
+              <!-- Features (Size & Color Swatches) -->
+              <div
+                class="bg-slate-50 rounded-2xl p-3.5 flex items-center justify-between border border-slate-100 text-xs mt-4"
+              >
+                <div>
+                  <span
+                    class="text-slate-400 block text-[10px] uppercase font-bold"
+                    >Dimensions</span
+                  >
+                  <span class="font-bold text-slate-700">{{
+                    balloon.size
+                  }}</span>
+                </div>
+
+                <!-- Color Palette Preview -->
+                <div>
+                  <span
+                    class="text-slate-400 block text-[10px] uppercase font-bold text-right mb-1"
+                    >Palettes</span
+                  >
+                  <div class="flex items-center gap-1">
+                    @for (colorClass of balloon.colors; track $index) {
+                      <span
+                        [class]="colorClass"
+                        class="w-3.5 h-3.5 rounded-full border border-black/10 inline-block shadow-xs"
+                      ></span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price & Action -->
+          <div
+            class="p-6 pt-0 mt-auto flex items-center justify-between border-t border-slate-100"
+          >
+            <div>
+              <span class="text-[11px] text-slate-400 block font-medium"
+                >Price</span
+              >
+              <span class="text-2xl font-black text-slate-900">
+                ${{ balloon.price }}
+              </span>
+            </div>
+
+            <a
+              [routerLink]="['/balloon', balloon.id]"
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-bold px-5 py-3 rounded-2xl transition-all shadow-md hover:shadow-pink-500/25"
+            >
+              <span>Order Party Kit</span>
+              <mat-icon class="!w-4 !h-4 !text-[16px]">shopping_bag</mat-icon>
+            </a>
+          </div>
+        </div>
+      } @empty {
+        <div
+          class="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200"
+        >
+          <mat-icon class="text-slate-300 !w-16 !h-16 !text-[64px] mb-3"
+            >celebration</mat-icon
+          >
+          <p class="text-slate-500 font-bold text-lg">
+            No party balloon sets found in this section right now.
+          </p>
+        </div>
+      }
+    </div>
+  </div>
+</div>

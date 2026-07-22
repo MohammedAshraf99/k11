@@ -1,45 +1,57 @@
-<div class="py-2 text-2xl font-bold text-center mb-4 text-amber-600">
-  new collection For You
-</div>
-<section
-  #cardContainer
-  (scroll)="onScroll(cardContainer)"
-  class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 py-4 px-4 m-auto max-w-7xl mt-2 md:grid md:grid-cols-4 md:px-8 no-scrollbar"
->
-  <!-- تغليف كل كارت بـ div لضبط حجمه على شاشات الهواتف والـ Snap -->
-  <div
-    class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
+<section class="my-2">
+  <div class="py-2 text-2xl font-bold text-center mb-4 text-amber-600">
+    new collection For You
+  </div>
+  <section
+    #cardContainer
+    (scroll)="onScroll(cardContainer)"
+    class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 py-4 px-4 m-auto max-w-7xl mt-2 md:grid md:grid-cols-4 md:px-8 no-scrollbar"
   >
-          <app-card />
-     </div>
+    <!-- تغليف كل كارت بـ div لضبط حجمه على شاشات الهواتف والـ Snap -->
+    <div
+      class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
+    >
+      <app-card />
+    </div>
 
-  <div
-    class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
-  >
-    <app-card />
+    <div
+      class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
+    >
+      <app-card />
+    </div>
+
+    <div
+      class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
+    >
+      <app-card />
+    </div>
+
+    <div
+      class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
+    >
+      <app-card />
+    </div>
+  </section>
+
+  <!-- نقاط التحكم السفلى (Bullets) - تظهر فقط على الهواتف وتختفي في الشاشات الكبيرة (md:hidden) -->
+  <div class="flex justify-center gap-2 mt-3 md:hidden">
+    @for (dot of [0, 1, 2, 3]; track index) {
+      <button
+        (click)="scrollToCard(cardContainer, index)"
+        [class]="
+          activeCardIndex === index ? 'w-6 bg-amber-600' : 'w-2 bg-gray-300'
+        "
+        class="h-2 rounded-full transition-all duration-300"
+        aria-label="Go to slide"
+      ></button>
+    }
   </div>
 
-  <div
-    class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
-  >
-    <app-card />
-  </div>
-
-  <div
-    class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
-  >
-    <app-card />
+  <div class="flex justify-center items-center">
+    <a routerLink="/">
+      <button class="px-4 py-2 cursor-pointer bg-amber-600 text-white rounded">
+        All Products
+      </button>
+    </a>
   </div>
 </section>
-
-<!-- نقاط التحكم السفلى (Bullets) - تظهر فقط على الهواتف وتختفي في الشاشات الكبيرة (md:hidden) -->
-<div class="flex justify-center gap-2 mt-3 md:hidden">
-  @for(dot of [0, 1, 2, 3]; track index) {
-  <button
-    (click)="scrollToCard(cardContainer, index)"
-    [class]="activeCardIndex === index ? 'w-6 bg-amber-600' : 'w-2 bg-gray-300'"
-    class="h-2 rounded-full transition-all duration-300"
-    aria-label="Go to slide"
-  ></button>
-  }
-</div>

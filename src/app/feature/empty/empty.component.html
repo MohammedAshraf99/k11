@@ -1,0 +1,18 @@
+<a
+  routerLink="/"
+  class="inline-flex my-8 items-center gap-2.5 px-4 py-2.5 bg-white border border-gray-200 text-gray-800 rounded-xl hover:bg-gray-50 transition-all duration-200 shadow-xs cursor-pointer group select-none"
+>
+  <!-- الأيقونة الديناميكية الممررة كـ Parameter -->
+  <mat-icon
+    class="text-amber-600 group-hover:scale-105 transition-transform duration-200 !h-5 !w-5 !text-[20px] flex items-center justify-center"
+  >
+    {{ icon }}
+  </mat-icon>
+
+  <!-- هنا سيتم حقن أي نص أو كود HTML تضعه في الخارج تلقائياً -->
+  <span
+    class="sm:text-sm md:text-xl font-bold uppercase tracking-wider text-gray-700 flex items-center gap-1"
+  >
+    <ng-content></ng-content>
+  </span>
+</a>

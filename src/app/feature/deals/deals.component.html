@@ -1,0 +1,120 @@
+<div class="page-animate min-h-screen bg-linear-to-b from-rose-50/60 via-amber-50/40 to-slate-50 py-12 px-4 sm:px-6 lg:px-8" dir="ltr">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-rose-900/10 pb-8">
+      <div>
+        <div class="flex items-center gap-2 text-xs font-bold tracking-widest text-rose-600 uppercase mb-2">
+          <a routerLink="/home" class="hover:underline">Home</a>
+          <span>/</span>
+          <span>Hot Deals</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-black text-slate-900 flex items-center gap-3">
+          <mat-icon class="text-rose-600 !w-9 !h-9 !text-[36px]">local_fire_department</mat-icon>
+          {{ categoryTitle() }}
+        </h1>
+        <p class="text-sm text-slate-600 mt-2 font-medium">
+          3-in-1 Celebration Bundles: Get Perfumes, Party Balloons, and Curated Gifts together at exclusive savings!
+        </p>
+      </div>
+
+      <span class="text-xs font-bold text-rose-700 bg-rose-100 px-4 py-2 rounded-full border border-rose-200 self-start md:self-auto flex items-center gap-1.5">
+        <mat-icon class="!w-4 !h-4 !text-[16px]">timer</mat-icon> Active Deals: {{ deals().length }}
+      </span>
+    </div>
+
+    <!-- Deals Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      @for (deal of deals(); track deal.id) {
+        <div class="group bg-white rounded-3xl overflow-hidden border border-rose-100 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative">
+          
+          <!-- Discount Badge -->
+          <div class="absolute top-4 left-4 z-10">
+            <span class="bg-rose-600 text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-md tracking-wider uppercase flex items-center gap-1">
+              <mat-icon class="!w-3.5 !h-3.5 !text-[14px]">bolt</mat-icon> {{ deal.badge }}
+            </span>
+          </div>
+
+          <div>
+            <!-- Image Frame -->
+            <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
+              <img 
+                [src]="deal.image" 
+                [alt]="deal.title" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+              />
+            </div>
+
+            <!-- Details -->
+            <div class="p-6">
+              <h3 class="font-black text-2xl text-slate-900 mb-4 group-hover:text-rose-600 transition-colors">
+                {{ deal.title }}
+              </h3>
+
+              <!-- Included Products (3-in-1 Breakdown) -->
+              <div class="bg-slate-50/80 rounded-2xl p-4 border border-slate-100 text-xs space-y-3">
+                <span class="text-slate-400 font-bold uppercase text-[10px] tracking-wider block border-b border-slate-200/60 pb-2">
+                  Bundle Includes (3 Items)
+                </span>
+
+                <!-- Perfume Item -->
+                <div class="flex items-start gap-2.5">
+                  <mat-icon class="text-amber-700 shrink-0 !w-4 !h-4 !text-[18px]">local_florist</mat-icon>
+                  <div>
+                    <span class="font-bold text-slate-900 block">Perfume</span>
+                    <span class="text-slate-600">{{ deal.items.perfume }}</span>
+                  </div>
+                </div>
+
+                <!-- Balloon Item -->
+                <div class="flex items-start gap-2.5">
+                  <mat-icon class="text-pink-500 shrink-0 !w-4 !h-4 !text-[18px]">celebration</mat-icon>
+                  <div>
+                    <span class="font-bold text-slate-900 block">Balloons</span>
+                    <span class="text-slate-600">{{ deal.items.balloon }}</span>
+                  </div>
+                </div>
+
+                <!-- Gift Item -->
+                <div class="flex items-start gap-2.5">
+                  <mat-icon class="text-rose-700 shrink-0 !w-4 !h-4 !text-[18px]">card_giftcard</mat-icon>
+                  <div>
+                    <span class="font-bold text-slate-900 block">Gift Hamper</span>
+                    <span class="text-slate-600">{{ deal.items.gift }}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Pricing & Buy Action -->
+          <div class="p-6 pt-0 mt-auto flex items-center justify-between border-t border-slate-100">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-2xl font-black text-slate-900">${{ deal.dealPrice }}</span>
+                <span class="text-sm font-semibold text-slate-400 line-through">${{ deal.originalPrice }}</span>
+              </div>
+              <span class="text-[11px] font-bold text-emerald-600 block">Save ${{ deal.originalPrice - deal.dealPrice }} instantly</span>
+            </div>
+
+            <a 
+              [routerLink]="['/hot-deal', deal.id]" 
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-rose-600 via-amber-600 to-rose-700 hover:opacity-95 text-white text-xs font-bold px-5 py-3 rounded-2xl transition-all shadow-md hover:shadow-rose-600/30"
+            >
+              <span>Get Combo</span>
+              <mat-icon class="!w-4 !h-4 !text-[16px]">shopping_cart</mat-icon>
+            </a>
+          </div>
+
+        </div>
+      } @empty {
+        <div class="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
+          <mat-icon class="text-slate-300 !w-16 !h-16 !text-[64px] mb-3">local_fire_department</mat-icon>
+          <p class="text-slate-500 font-bold text-lg">No bundle deals available right now.</p>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

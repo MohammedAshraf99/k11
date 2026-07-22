@@ -1,10 +1,17 @@
-<app-navbar/>
-<!-- <app-fav-product/> -->
-<!-- <app-checkout /> -->
-<!-- <app-cart /> -->
-<!-- <app-item-details /> -->
-<router-outlet />
+<app-navbar />
+<main class="page-transition-wrapper">
+  <!-- 1. النقاط الثلاث بألوان الهوية الرئيسية -->
+  <div class="page-dots-loader" aria-hidden="true">
+    <span class="bg-amber-600"></span>
+    <span class="bg-amber-600"></span>
+    <span class="bg-amber-600"></span>
+  </div>
 
-<!-- <app-info-item /> -->
+  <!-- 2. محتوى الصفحات المُتحرك -->
+  <div class="page-content-animated">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
 <app-footer />
 <app-toaster />

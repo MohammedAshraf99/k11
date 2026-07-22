@@ -1,193 +1,207 @@
-<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto">
-    <h1 class="text-3xl font-black text-gray-900 tracking-tight mb-8">
-      Your Shopping Cart
-    </h1>
+@if (true) {
+  <div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl font-black text-gray-900 tracking-tight mb-8">
+        Your Shopping Cart
+      </h1>
 
-    <!-- Main Container: Splitting items list and order summary -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-      <!-- Left Column: Cart Items List (Takes 2 columns on desktop) -->
-      <div class="lg:col-span-2 flex flex-col gap-4">
-        <!-- Native Angular 20 Conditional Control Flow -->
-        @if (cartItems().length === 0) {
-          <!-- Empty State Handling -->
-          <div
-            class="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm"
-          >
-            <mat-icon class="!h-16 !w-16 !text-[64px] text-gray-300 mb-4"
-              >shopping_bag</mat-icon
-            >
-            <h3 class="text-lg font-bold text-gray-800">Your cart is empty</h3>
-            <p class="text-gray-500 text-sm mt-1">
-              Discover our collection and find something beautiful.
-            </p>
-            <button
-              routerLink="/products"
-              class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm rounded-xl transition-colors"
-            >
-              Continue Shopping
-            </button>
-          </div>
-        } @else {
-          <!-- Native Angular 20 Optimized For Loop with Tracking -->
-          @for (item of cartItems(); track item.id) {
+      <!-- Main Container: Splitting items list and order summary -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <!-- Left Column: Cart Items List (Takes 2 columns on desktop) -->
+        <div class="lg:col-span-2 flex flex-col gap-4">
+          <!-- Native Angular 20 Conditional Control Flow -->
+          @if (cartItems().length === 0) {
+            <!-- Empty State Handling -->
             <div
-              class="bg-white rounded-2xl p-4 md:p-6 border border-gray-100 shadow-sm flex gap-4 md:gap-6 relative group transition-all hover:shadow-md"
+              class="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm"
             >
-              <!-- Product Thumbnail Image -->
-              <div
-                class="w-24 h-24 md:w-32 md:h-32 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 p-2 flex items-center justify-center shrink-0"
+              <mat-icon class="h-16 w-16 text-[64px] text-gray-300 mb-4"
+                >shopping_bag</mat-icon
               >
-                <img
-                  [src]="item.image"
-                  [alt]="item.name"
-                  class="w-full h-full object-contain"
-                />
+              <h3 class="text-lg font-bold text-gray-800">
+                Your cart is empty
+              </h3>
+              <p class="text-gray-500 text-sm mt-1">
+                Discover our collection and find something beautiful.
+              </p>
+              <button
+                routerLink="/products"
+                class="mt-6 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm rounded-xl transition-colors"
+              >
+                Continue Shopping
+              </button>
+            </div>
+          } @else {
+            <!-- Native Angular 20 Optimized For Loop with Tracking -->
+            @for (item of cartItems(); track item.id) {
+              <div
+                class="bg-white rounded-2xl p-4 md:p-6 border border-gray-100 shadow-sm flex gap-4 md:gap-6 relative group transition-all hover:shadow-md"
+              >
+                <!-- Product Thumbnail Image -->
+                <div
+                  class="w-24 h-24 md:w-32 md:h-32 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 p-2 flex items-center justify-center shrink-0"
+                >
+                  <img
+                    [src]="item.image"
+                    [alt]="item.name"
+                    class="w-full h-full object-contain"
+                  />
+                </div>
+
+                <!-- Product Details Segment -->
+                <div class="flex-1 flex flex-col justify-between">
+                  <div class="flex justify-between items-start gap-2">
+                    <div>
+                      <span
+                        class="text-[10px] font-bold uppercase tracking-widest text-amber-600"
+                        >{{ item.brand }}</span
+                      >
+                      <h3
+                        class="text-base md:text-lg font-bold text-gray-900 leading-tight mt-0.5"
+                      >
+                        {{ item.name }}
+                      </h3>
+                      <p class="text-xs text-gray-400 mt-1">
+                        Volume:
+                        <span class="text-gray-700 font-medium">{{
+                          item.selectedSize
+                        }}</span>
+                      </p>
+                    </div>
+
+                    <!-- Absolute item removal trigger using the signal update method -->
+                    <button
+                      (click)="removeItem(item.id)"
+                      class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-gray-50"
+                      aria-label="Remove item"
+                    >
+                      <mat-icon class="!h-5 !w-5 !text-[20px]"
+                        >delete_outline</mat-icon
+                      >
+                    </button>
+                  </div>
+
+                  <!-- Price & Quantity Control Row -->
+                  <div class="flex justify-between items-center mt-4">
+                    <!-- Quantity Incrementor -->
+                    <div
+                      class="flex items-center justify-between border border-gray-200 rounded-lg p-1 bg-gray-50 w-24"
+                    >
+                      <button
+                        (click)="decreaseQty(item.id)"
+                        class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-md transition-colors"
+                      >
+                        <mat-icon class="!h-3 !w-3 !text-[12px]"
+                          >remove</mat-icon
+                        >
+                      </button>
+                      <span class="font-bold text-gray-900 text-xs">{{
+                        item.quantity
+                      }}</span>
+                      <button
+                        (click)="increaseQty(item.id)"
+                        class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-md transition-colors"
+                      >
+                        <mat-icon class="!h-3 !w-3 !text-[12px]">add</mat-icon>
+                      </button>
+                    </div>
+
+                    <!-- Price breakdown (Individual vs Multiplied accumulated total) -->
+                    <div class="text-right">
+                      <span class="text-lg font-black text-gray-950"
+                        >${{ item.price * item.quantity }}</span
+                      >
+                      @if (item.quantity > 1) {
+                        <p class="text-[10px] text-gray-400">
+                          ${{ item.price }} each
+                        </p>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          }
+        </div>
+
+        <!-- Right Column: Order Summary Card -->
+        @if (cartItems().length > 0) {
+          <div
+            class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm sticky top-6 flex flex-col gap-6"
+          >
+            <h2
+              class="text-lg font-bold text-gray-900 pb-3 border-b border-gray-100"
+            >
+              Order Summary
+            </h2>
+
+            <!-- Pricing Breakdown Details -->
+            <div class="flex flex-col gap-3 text-sm">
+              <div class="flex justify-between text-gray-500">
+                <span>Subtotal</span>
+                <!-- Reads cleanly from high-performance computed signal caching -->
+                <span class="font-semibold text-gray-900"
+                  >${{ subtotal() }}</span
+                >
+              </div>
+              <div class="flex justify-between text-gray-500">
+                <span>Estimated Shipping</span>
+                <span class="font-semibold text-green-600">Free</span>
+              </div>
+              <div class="flex justify-between text-gray-500">
+                <span>Tax</span>
+                <span class="font-semibold text-gray-900">$0.00</span>
               </div>
 
-              <!-- Product Details Segment -->
-              <div class="flex-1 flex flex-col justify-between">
-                <div class="flex justify-between items-start gap-2">
-                  <div>
-                    <span
-                      class="text-[10px] font-bold uppercase tracking-widest text-amber-600"
-                      >{{ item.brand }}</span
-                    >
-                    <h3
-                      class="text-base md:text-lg font-bold text-gray-900 leading-tight mt-0.5"
-                    >
-                      {{ item.name }}
-                    </h3>
-                    <p class="text-xs text-gray-400 mt-1">
-                      Volume:
-                      <span class="text-gray-700 font-medium">{{
-                        item.selectedSize
-                      }}</span>
-                    </p>
-                  </div>
+              <hr class="border-gray-100 my-1" />
 
-                  <!-- Absolute item removal trigger using the signal update method -->
-                  <button
-                    (click)="removeItem(item.id)"
-                    class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-gray-50"
-                    aria-label="Remove item"
-                  >
-                    <mat-icon class="!h-5 !w-5 !text-[20px]"
-                      >delete_outline</mat-icon
-                    >
-                  </button>
-                </div>
-
-                <!-- Price & Quantity Control Row -->
-                <div class="flex justify-between items-center mt-4">
-                  <!-- Quantity Incrementor -->
-                  <div
-                    class="flex items-center justify-between border border-gray-200 rounded-lg p-1 bg-gray-50 w-24"
-                  >
-                    <button
-                      (click)="decreaseQty(item.id)"
-                      class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-md transition-colors"
-                    >
-                      <mat-icon class="!h-3 !w-3 !text-[12px]">remove</mat-icon>
-                    </button>
-                    <span class="font-bold text-gray-900 text-xs">{{
-                      item.quantity
-                    }}</span>
-                    <button
-                      (click)="increaseQty(item.id)"
-                      class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-md transition-colors"
-                    >
-                      <mat-icon class="!h-3 !w-3 !text-[12px]">add</mat-icon>
-                    </button>
-                  </div>
-
-                  <!-- Price breakdown (Individual vs Multiplied accumulated total) -->
-                  <div class="text-right">
-                    <span class="text-lg font-black text-gray-950"
-                      >${{ item.price * item.quantity }}</span
-                    >
-                    @if (item.quantity > 1) {
-                      <p class="text-[10px] text-gray-400">
-                        ${{ item.price }} each
-                      </p>
-                    }
-                  </div>
-                </div>
+              <div
+                class="flex justify-between text-base font-bold text-gray-950"
+              >
+                <span>Total Amount</span>
+                <span class="text-xl font-black">${{ subtotal() }}</span>
               </div>
             </div>
-          }
+
+            <!-- Coupon Voucher Entry -->
+            <div class="flex gap-2">
+              <input
+                type="text"
+                placeholder="Promo Code"
+                class="flex-1 min-w-0 px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-amber-600 transition-colors"
+              />
+              <button
+                class="px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white font-medium text-xs rounded-xl tracking-wider transition-colors uppercase"
+              >
+                Apply
+              </button>
+            </div>
+
+            <!-- Primary Action Trigger Button -->
+            <button>
+              <a
+                class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 tracking-wide text-sm uppercase"
+                routerLink="/checkout"
+              >
+                <mat-icon>lock</mat-icon>
+                Proceed to Checkout
+              </a>
+            </button>
+
+            <!-- Dynamic Trust Indicator -->
+            <div
+              class="flex items-center justify-center gap-2 text-xs text-gray-400"
+            >
+              <mat-icon class="!h-4 !w-4 !text-[16px]">verified_user</mat-icon>
+              <span>Secure checkout processed immediately.</span>
+            </div>
+          </div>
         }
       </div>
-
-      <!-- Right Column: Order Summary Card -->
-      @if (cartItems().length > 0) {
-        <div
-          class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm sticky top-6 flex flex-col gap-6"
-        >
-          <h2
-            class="text-lg font-bold text-gray-900 pb-3 border-b border-gray-100"
-          >
-            Order Summary
-          </h2>
-
-          <!-- Pricing Breakdown Details -->
-          <div class="flex flex-col gap-3 text-sm">
-            <div class="flex justify-between text-gray-500">
-              <span>Subtotal</span>
-              <!-- Reads cleanly from high-performance computed signal caching -->
-              <span class="font-semibold text-gray-900">${{ subtotal() }}</span>
-            </div>
-            <div class="flex justify-between text-gray-500">
-              <span>Estimated Shipping</span>
-              <span class="font-semibold text-green-600">Free</span>
-            </div>
-            <div class="flex justify-between text-gray-500">
-              <span>Tax</span>
-              <span class="font-semibold text-gray-900">$0.00</span>
-            </div>
-
-            <hr class="border-gray-100 my-1" />
-
-            <div class="flex justify-between text-base font-bold text-gray-950">
-              <span>Total Amount</span>
-              <span class="text-xl font-black">${{ subtotal() }}</span>
-            </div>
-          </div>
-
-          <!-- Coupon Voucher Entry -->
-          <div class="flex gap-2">
-            <input
-              type="text"
-              placeholder="Promo Code"
-              class="flex-1 min-w-0 px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-amber-600 transition-colors"
-            />
-            <button
-              class="px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white font-medium text-xs rounded-xl tracking-wider transition-colors uppercase"
-            >
-              Apply
-            </button>
-          </div>
-
-          <!-- Primary Action Trigger Button -->
-          <button>
-            <a
-              class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 tracking-wide text-sm uppercase"
-              routerLink="/checkout"
-            >
-              <mat-icon>lock</mat-icon>
-              Proceed to Checkout
-            </a>
-          </button>
-
-          <!-- Dynamic Trust Indicator -->
-          <div
-            class="flex items-center justify-center gap-2 text-xs text-gray-400"
-          >
-            <mat-icon class="!h-4 !w-4 !text-[16px]">verified_user</mat-icon>
-            <span>Secure checkout processed immediately.</span>
-          </div>
-        </div>
-      }
     </div>
   </div>
-</div>
+} @else {
+  <div class="flex flex-col items-center justify-center gap-2 py-10">
+    <app-empty icon="shopping_cart"> Your cart is Empty </app-empty>
+  </div>
+}
