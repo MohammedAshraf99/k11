@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ApiResponse, Cart } from '../core/models/api';
 import { Injectable, inject, signal } from '@angular/core';
 import { GuestUserService } from './guest-user.service';
+import { environment } from '../../enviroments/environment';
 
 export interface AddToCartPayload {
   guestId?: string; // Optional for guest users
@@ -18,7 +19,7 @@ export class CartService {
   private http = inject(HttpClient);
   private guestUserService = inject(GuestUserService);
 
-  private apiUrl = 'http://localhost:3000/api/cart';
+  private apiUrl = environment.apiUrl+'cart';
 
   getguestId() {
     this.guestUserService.getGuestId();

@@ -8,13 +8,14 @@ import {
   GiftItem,
 } from '../core/models/api';
 import { inject, Injectable } from '@angular/core';
+import { environment } from '../../enviroments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/products';
+  private apiUrl = environment.apiUrl+'products';
 
   /**
    * جلب جميع المنتجات حسب النوع (perfumes | balloons | gifts)

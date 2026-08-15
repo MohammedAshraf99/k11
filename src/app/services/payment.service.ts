@@ -1,13 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../enviroments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/payments';
+  private apiUrl = environment.apiUrl+'payments';
 
   createPaypalOrder(amount: number): Observable<{ success: boolean; orderID: string }> {
     return this.http.post<{ success: boolean; orderID: string }>(`${this.apiUrl}/paypal/create-order`, { amount });

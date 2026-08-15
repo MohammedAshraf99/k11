@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Banner, ApiResponse } from '../core/models/api';
-
+import {  environment} from '../../enviroments/environment'
 export interface UploadImageResponse {
   success: boolean;
   message: string;
@@ -15,8 +15,7 @@ export interface UploadImageResponse {
 })
 export class BannerService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/banners';
-
+  private apiUrl = environment.apiUrl + 'banners';
   getBanners(): Observable<ApiResponse<Banner[]>> {
     return this.http.get<ApiResponse<Banner[]>>(this.apiUrl);
   }
