@@ -1,91 +1,217 @@
 <div
-  class="page-animate min-h-screen bg-[#faf8f5] py-12 px-4 sm:px-6 lg:px-8"
+  [class]="
+    categoryName() === 'perfumes'
+      ? 'page-animate min-h-screen bg-[#faf8f5] py-12 px-4 sm:px-6 lg:px-8'
+      : categoryName() === 'balloons'
+        ? 'page-animate min-h-screen bg-linear-to-b from-sky-50 via-pink-50/30 to-purple-50/50 py-12 px-4 sm:px-6 lg:px-8'
+        : categoryName() === 'gifts'
+          ? 'page-animate min-h-screen bg-[#faf7f2] py-12 px-4 sm:px-6 lg:px-8'
+          : categoryName() === 'deals'
+            ? 'page-animate min-h-screen bg-[#faf7f2] py-12 px-4 sm:px-6 lg:px-8'
+            : 'page-animate min-h-screen py-12 px-4'
+  "
   dir="ltr"
 >
   <div class="max-w-7xl mx-auto">
     <!-- Header Section -->
-    <div
-      class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-amber-900/10 pb-8"
-    >
-      <div>
-        <div
-          class="flex items-center gap-2 text-xs font-medium tracking-widest text-amber-800 uppercase mb-2"
-        >
-          <a routerLink="/home" class="hover:underline">Home</a>
-          <span>/</span>
-          <span>Fragrances</span>
-        </div>
-        <h1
-          class="text-3xl md:text-4xl font-serif text-amber-950 font-bold flex items-center gap-3"
-        >
-          <mat-icon class="text-amber-700 !w-9 !h-9 !text-[36px]"
-            >local_florist</mat-icon
-          >
-          {{ categoryTitle() }}
-        </h1>
-        <p class="text-sm text-amber-900/70 mt-2 font-light">
-          Explore artisanal scent pyramids crafted to complement your signature
-          presence.
-        </p>
-      </div>
 
-      <span
-        class="text-xs font-semibold text-amber-900 bg-amber-100/60 px-4 py-2 rounded-full border border-amber-200/50 self-start md:self-auto"
-      >
-        Available: {{ perfumes().length }} Fragrances
-      </span>
-    </div>
-
-    <!-- Perfumes Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      @for (perfume of perfumes(); track perfume.id) {
+    @switch (categoryName()) {
+      @case ("perfumes") {
         <div
-          class="group bg-white rounded-3xl overflow-hidden border border-amber-900/5 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col justify-between"
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-amber-900/10 pb-8"
         >
           <div>
-            <!-- Image Frame -->
-            <div class="relative aspect-4/5 overflow-hidden bg-stone-100">
-              <img
-                [src]="perfume.image"
-                [alt]="perfume.name"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-
-              <!-- Badges -->
-              <div
-                class="absolute top-4 left-4 flex flex-col gap-1.5 items-start"
-              >
-                <span
-                  class="bg-amber-950/80 backdrop-blur-md text-amber-100 text-[10px] font-medium tracking-wider px-3 py-1 rounded-full uppercase"
-                >
-                  {{ perfume.concentration }}
-                </span>
-                <span
-                  class="bg-white/90 backdrop-blur-md text-stone-800 text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
-                >
-                  {{ perfume.family }}
-                </span>
-              </div>
+            <div
+              class="flex items-center gap-2 text-xs font-medium tracking-widest text-amber-800 uppercase mb-2"
+            >
+              <a routerLink="/home" class="hover:underline">Home</a>
+              <span>/</span>
+              <span>Fragrances</span>
             </div>
+            <h1
+              class="text-3xl md:text-4xl font-serif text-amber-950 font-bold flex items-center gap-3"
+            >
+              <mat-icon class="text-amber-700 !w-9 !h-9 !text-[36px]"
+                >local_florist</mat-icon
+              >
+              {{ "Luxury Fragrance Collection" }}
+            </h1>
+            <p class="text-sm text-amber-900/70 mt-2 font-light">
+              Explore artisanal scent pyramids crafted to complement your
+              signature presence.
+            </p>
+          </div>
 
-            <!-- Details -->
-            <div class="p-6">
-              <span
-                class="text-xs font-bold tracking-widest text-amber-800 uppercase block mb-1"
+          <span
+            class="text-xs font-semibold text-amber-900 bg-amber-100/60 px-4 py-2 rounded-full border border-amber-200/50 self-start md:self-auto"
+          >
+            Available: {{ products().length }} Fragrances
+          </span>
+        </div>
+      }
+      @case ("balloons") {
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-pink-200/60 pb-8"
+        >
+          <div>
+            <div
+              class="flex items-center gap-2 text-xs font-bold tracking-wider text-pink-600 uppercase mb-2"
+            >
+              <a routerLink="/home" class="hover:underline">Home</a>
+              <span>/</span>
+              <span>Balloons & Party Supplies</span>
+            </div>
+            <h1
+              class="text-3xl md:text-4xl font-black text-slate-900 flex items-center gap-3"
+            >
+              <mat-icon class="text-pink-500 !w-9 !h-9 !text-[36px]"
+                >celebration</mat-icon
               >
-                {{ perfume.brand }}
-              </span>
-              <h3
-                class="font-serif font-bold text-2xl text-stone-900 mb-4 group-hover:text-amber-800 transition-colors"
-              >
-                {{ perfume.name }}
-              </h3>
+              {{ "Balloon Collection" }}
+            </h1>
+            <p class="text-sm text-slate-600 mt-2 font-medium">
+              Bring your events to life with custom arch setups, helium
+              bouquets, and metallic numbers!
+            </p>
+          </div>
 
-              <!-- Olfactory Pyramid (Notes) -->
-              <div
-                class="bg-amber-50/50 rounded-2xl p-3.5 space-y-2 border border-amber-100/60 text-xs"
+          <span
+            class="text-xs font-bold text-purple-700 bg-purple-100/80 px-4 py-2 rounded-full border border-purple-200 self-start md:self-auto"
+          >
+            <!-- -->
+            Showing: {{ products().length }} Balloon Items
+          </span>
+        </div>
+      }
+      @case ("gifts") {
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-rose-900/10 pb-8"
+        >
+          <div>
+            <div
+              class="flex items-center gap-2 text-xs font-semibold tracking-widest text-rose-800 uppercase mb-2"
+            >
+              <a routerLink="/home" class="hover:underline">Home</a>
+              <span>/</span>
+              <span>Gifts & Celebrations</span>
+            </div>
+            <h1
+              class="text-3xl md:text-4xl font-serif font-bold text-stone-900 flex items-center gap-3"
+            >
+              <mat-icon class="text-rose-700 !w-9 !h-9 !text-[36px]"
+                >card_giftcard</mat-icon
               >
-                <div class="flex items-center gap-2">
+              {{ "Curated Gift Hampers" }}
+            </h1>
+            <p class="text-sm text-stone-600 mt-2 font-light">
+              Thoughtfully curated gift sets designed to turn every moment into
+              an unforgettable memory.
+            </p>
+          </div>
+
+          <span
+            class="text-xs font-semibold text-rose-900 bg-rose-100/70 px-4 py-2 rounded-full border border-rose-200/60 self-start md:self-auto"
+          >
+            <!-- gifts().length -->
+            Curated Selection: {{ products().length }} Hampers
+          </span>
+        </div>
+      }
+
+      @case ("deals") {
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-rose-900/10 pb-8"
+        >
+          <div>
+            <div
+              class="flex items-center gap-2 text-xs font-bold tracking-widest text-rose-600 uppercase mb-2"
+            >
+              <a routerLink="/home" class="hover:underline">Home</a>
+              <span>/</span>
+              <span>Hot Deals</span>
+            </div>
+            <h1
+              class="text-3xl md:text-4xl font-black text-slate-900 flex items-center gap-3"
+            >
+              <mat-icon class="text-rose-600 !w-9 !h-9 !text-[36px]"
+                >local_fire_department</mat-icon
+              >
+              Exclusive Celebration Combos
+            </h1>
+            <p class="text-sm text-slate-600 mt-2 font-medium">
+              3-in-1 Celebration Bundles: Get Perfumes,
+              Curated Gifts together at exclusive savings!
+            </p>
+          </div>
+
+          <span
+            class="text-xs font-bold text-rose-700 bg-rose-100 px-4 py-2 rounded-full border border-rose-200 self-start md:self-auto flex items-center gap-1.5"
+          >
+            <mat-icon class="!w-4 !h-4 !text-[16px]">timer</mat-icon> Active
+            Deals: {{ products().length }}
+          </span>
+        </div>
+      }
+    }
+
+    <!-- Perfumes Grid -->
+
+    @switch (categoryName()) {
+      @case ("perfumes") {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          @for (perfume of products(); track perfume._id) {
+            <div
+              class="group bg-white rounded-3xl overflow-hidden border border-amber-900/5 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col justify-between"
+            >
+              <div>
+                <!-- Image Frame -->
+                <div class="relative aspect-4/5 overflow-hidden bg-stone-100">
+                  <img
+                    [src]="localhost + perfume.image[0]"
+                    [alt]="perfume.name"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+
+                  <!-- Badges -->
+                  <div
+                    class="absolute top-4 left-4 flex flex-col gap-1.5 items-start"
+                  >
+                    @if (perfume.isSale && perfume.salePrice != 0) {
+                      <span
+                        class="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
+                      >
+                        -{{
+                          perfume.price
+                            | discountPercent: perfume.salePrice
+                            | number: "1.0-0"
+                        }}% OFF
+                      </span>
+                    }
+                    <span
+                      class="bg-amber-950/80 backdrop-blur-md text-amber-100 text-[10px] font-medium tracking-wider px-3 py-1 rounded-full uppercase"
+                    >
+                      {{ perfume.concentration }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Details -->
+                <div class="p-6">
+                  <h3
+                    class="font-serif font-bold text-2xl text-stone-900 mb-4 group-hover:text-amber-800 transition-colors"
+                  >
+                    {{ perfume.name }}
+                  </h3>
+
+                  <!-- Olfactory Pyramid (Notes) -->
+                  <div
+                    class="bg-amber-50/50 rounded-2xl p-3.5 space-y-2 border border-amber-100/60 text-xs"
+                  >
+                    {{
+                      perfume.description ||
+                        "No description available for this fragrance."
+                    }}
+                    <!-- <div class="flex items-center gap-2">
                   <span class="font-bold text-amber-900 min-w-[70px]"
                     >Top:</span
                   >
@@ -108,45 +234,470 @@
                   <span class="text-stone-600 truncate">{{
                     perfume.notes.base.join(" • ")
                   }}</span>
+                </div> -->
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <!-- Price & Action -->
-          <div
-            class="p-6 pt-0 mt-auto flex items-center justify-between border-t border-stone-100"
-          >
-            <div>
-              <span class="text-[11px] text-stone-400 block font-light"
-                >Price</span
+              <!-- Price & Action -->
+              <div
+                class="p-6 pt-0 mt-auto flex items-center justify-between border-t border-stone-100"
               >
-              <span class="text-2xl font-serif font-bold text-amber-900">
-                ${{ perfume.price }}
-              </span>
-            </div>
+                <div>
+                  <span class="text-[11px] text-stone-400 block font-light"
+                    >Price</span
+                  >
+                  <span class="text-2xl font-serif font-bold text-amber-900">
+                    {{ perfume.price | currency: "GBP" : "symbol" : "1.0-0" }}
+                  </span>
+                  @if (perfume.isSale && perfume.salePrice != 0) {
+                    <span
+                      class="text-gray-400 line-through font-serif font-bold"
+                    >
+                      {{
+                        perfume.salePrice | currency: "GBP" : "symbol" : "1.0-0"
+                      }}
+                    </span>
+                  }
+                </div>
 
-            <a
-              [routerLink]="['/product', perfume.id]"
-              class="inline-flex items-center gap-2 bg-amber-900 hover:bg-amber-950 text-amber-50 text-xs font-medium px-5 py-3 rounded-2xl transition-all shadow-md hover:shadow-amber-900/20"
+                <a
+                  [routerLink]="['/category/perfumes', perfume._id]"
+                  class="inline-flex items-center gap-2 bg-amber-900 hover:bg-amber-950 text-amber-50 text-xs font-medium px-5 py-3 rounded-2xl transition-all shadow-md hover:shadow-amber-900/20"
+                >
+                  <span>Discover</span>
+                  <mat-icon class="!w-4 !h-4 !text-[16px]"
+                    >arrow_forward</mat-icon
+                  >
+                </a>
+              </div>
+            </div>
+          } @empty {
+            <div
+              class="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-stone-200"
             >
-              <span>Discover</span>
-              <mat-icon class="!w-4 !h-4 !text-[16px]">arrow_forward</mat-icon>
-            </a>
-          </div>
-        </div>
-      } @empty {
-        <div
-          class="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-stone-200"
-        >
-          <mat-icon class="text-amber-900/20 !w-16 !h-16 !text-[64px] mb-3"
-            >auto_awesome</mat-icon
-          >
-          <p class="text-stone-500 font-serif text-lg">
-            No fragrances currently found in this category.
-          </p>
+              <mat-icon class="text-amber-900/20 !w-16 !h-16 !text-[64px] mb-3"
+                >auto_awesome</mat-icon
+              >
+              <p class="text-stone-500 font-serif text-lg">
+                No fragrances currently found in this category.
+              </p>
+            </div>
+          }
         </div>
       }
-    </div>
+      @case ("balloons") {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          @for (balloon of products(); track balloon._id) {
+            <div
+              class="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-xs hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+            >
+              <div>
+                <!-- Image Frame -->
+                <div class="relative aspect-4/3 overflow-hidden bg-slate-100">
+                  <img
+                    [src]="localhost + balloon.image[0]"
+                    [alt]="balloon.name"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+
+                  <!-- Badges Top -->
+                  <div class="absolute top-4 left-4 flex gap-1.5 items-start">
+                    @for (tag of balloon.tags; track $index) {
+                      <span
+                        class="text-xs font-bold tracking-wider text-pink-600 uppercase block mb-1 bg-black/10 backdrop-blur-md px-3 py-1 rounded-lg shadow-sm"
+                      >
+                        {{ tag }}
+                      </span>
+                    }
+                  </div>
+
+                  <!-- Helium Compatibility Tag -->
+                  <!-- @if (balloon.heliumReady) {
+                <span
+                  class="absolute bottom-3 right-3 bg-emerald-500/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1"
+                >
+                  <mat-icon class="!w-3.5 !h-3.5 !text-[14px]">air</mat-icon>
+                  Helium Compatible
+                </span>
+              } -->
+                </div>
+
+                <!-- Details -->
+                <div class="p-6">
+                  <!-- <span
+                class="text-xs font-bold tracking-wider text-pink-600 uppercase block mb-1"
+              >
+                {{ balloon.theme }}
+              </span> -->
+                  <h3
+                    class="font-black text-xl text-slate-900 mb-3 group-hover:text-pink-600 transition-colors"
+                  >
+                    {{ balloon.name }}
+                  </h3>
+
+                  <!-- Features (Size & Color Swatches) -->
+                  <div
+                    class="bg-slate-50 rounded-2xl p-3.5 flex items-center justify-between border border-slate-100 text-xs mt-4"
+                  >
+                    <div
+                      class="text-slate-400 block text-[10px] uppercase font-bold"
+                    >
+                      {{
+                        balloon.description ||
+                          "No description available for this balloon set."
+                      }}
+                      <!-- <span
+                        class="text-slate-400 block text-[10px] uppercase font-bold"
+                        >Dimensions</span
+                      >
+                      <span class="font-bold text-slate-700">{{
+                        balloon.size
+                      }}</span> -->
+                    </div>
+
+                    <!-- Color Palette Preview -->
+                    <div>
+                      <!-- <span
+                        class="text-slate-400 block text-[10px] uppercase font-bold text-right mb-1"
+                        >Palettes</span
+                      > -->
+                      <div class="flex items-center gap-1">
+                        <!-- @for (colorClass of balloon.colors; track $index) {
+                      <span
+                        [class]="colorClass"
+                        class="w-3.5 h-3.5 rounded-full border border-black/10 inline-block shadow-xs"
+                      ></span>
+                    } -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Price & Action -->
+              <div
+                class="p-6 pt-0 mt-auto flex items-center justify-between border-t border-slate-100"
+              >
+                <div>
+                  <span class="text-[11px] text-slate-400 block font-medium"
+                    >Price</span
+                  >
+                  <span class="text-2xl font-black text-slate-900">
+                    {{ balloon.price | currency: "GBP" : "symbol" : "1.0-0" }}
+                  </span>
+                  @if (balloon.isSale && balloon.salePrice != 0) {
+                    <span
+                      class="font-bold font-black900 text-black/50 line-through"
+                    >
+                      {{
+                        balloon.salePrice | currency: "GBP" : "symbol" : "1.0-0"
+                      }}
+                    </span>
+                  }
+                </div>
+
+                <a
+                  [routerLink]="['/category/balloons', balloon._id]"
+                  class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-bold px-5 py-3 rounded-2xl transition-all shadow-md hover:shadow-pink-500/25"
+                >
+                  <span>Order Party Kit</span>
+                  <mat-icon class="!w-4 !h-4 !text-[16px]"
+                    >shopping_bag</mat-icon
+                  >
+                </a>
+              </div>
+            </div>
+          } @empty {
+            <div
+              class="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200"
+            >
+              <mat-icon class="text-slate-300 !w-16 !h-16 !text-[64px] mb-3"
+                >celebration</mat-icon
+              >
+              <p class="text-slate-500 font-bold text-lg">
+                No party balloon sets found in this section right now.
+              </p>
+            </div>
+          }
+        </div>
+      }
+      @case ("gifts") {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          @for (gift of products(); track gift._id) {
+            <div
+              class="group bg-white rounded-3xl overflow-hidden border border-stone-200/80 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+            >
+              <div>
+                <!-- Image Frame -->
+                <div class="relative aspect-4/3 overflow-hidden bg-stone-100">
+                  <img
+                    [src]="localhost + gift.image[0]"
+                    [alt]="gift.name"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+
+                  <!-- Badges -->
+                  <div
+                    class="absolute top-4 left-4 flex flex-col gap-1.5 items-start"
+                  >
+                    @if (gift.isSale && gift.salePrice != 0) {
+                      <span
+                        class="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
+                      >
+                        -{{
+                          gift.price
+                            | discountPercent: gift.salePrice
+                            | number: "1.0-0"
+                        }}% OFF
+                      </span>
+                    }
+                    @if (gift.tags === []) {
+                      @for (item of gift.tags; track $index) {
+                        <span
+                          class="bg-stone-900/80 backdrop-blur-md text-stone-100 text-[10px] font-semibold tracking-wider px-3 py-1 rounded-full uppercase"
+                        >
+                          {{ item }}
+                        </span>
+                      }
+                    }
+                  </div>
+
+                  @if (gift.boxContents) {
+                    <!-- Personalization Tag -->
+                    <!-- <span
+                      class="absolute bottom-3 right-3 bg-rose-800/90 backdrop-blur-md text-white text-[10px] font-medium px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-xs"
+                    >
+                      <mat-icon class="!w-3.5 !h-3.5 !text-[14px]"
+                        >edit_note</mat-icon
+                      >
+                      Includes Custom Card
+                    </span> -->
+                  }
+                </div>
+
+                <!-- Details -->
+                <div class="p-6">
+                  <span
+                    class="text-xs font-bold tracking-widest text-rose-800 uppercase block mb-1"
+                  >
+                    {{ gift.occasion }}
+                  </span>
+                  <h3
+                    class="font-serif font-bold text-2xl text-stone-900 mb-3 group-hover:text-rose-800 transition-colors"
+                  >
+                    {{ gift.name }}
+                  </h3>
+
+                  <!-- Box Contents List -->
+                  <div
+                    class="bg-stone-50 rounded-2xl p-4 border border-stone-100 text-xs mt-4"
+                  >
+                    <span
+                      class="text-stone-400 font-bold uppercase text-[10px] tracking-wider block mb-2"
+                    >
+                      What's Inside The Box
+                    </span>
+                    <ul class="space-y-1.5 text-stone-700 font-medium">
+                      @for (item of gift.boxContents; track $index) {
+                        <li class="flex items-center gap-2">
+                          <span
+                            class="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block"
+                          ></span>
+                          <span>{{ item }}</span>
+                        </li>
+                      }
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Price & Action -->
+              <div
+                class="p-6 pt-0 mt-auto flex items-center justify-between border-t border-stone-100"
+              >
+                <div>
+                  <span class="text-[11px] text-stone-400 block font-light"
+                    >Price</span
+                  >
+                  <span class="text-2xl font-serif font-bold text-stone-900">
+                    {{ gift.price | currency: "GBP" : "symbol" : "1.0-0" }}
+                  </span>
+                  @if (gift.isSale && gift.salePrice != 0) {
+                    <span
+                      class="text-gray-400 line-through font-serif font-bold"
+                    >
+                      {{
+                        gift.salePrice | currency: "GBP" : "symbol" : "1.0-0"
+                      }}
+                    </span>
+                  }
+                </div>
+
+                <a
+                  [routerLink]="['/category/gifts', gift._id]"
+                  class="inline-flex items-center gap-2 bg-rose-900 hover:bg-rose-950 text-rose-50 text-xs font-medium px-5 py-3 rounded-2xl transition-all shadow-md hover:shadow-rose-900/20"
+                >
+                  <span>Send Gift</span>
+                  <mat-icon class="!w-4 !h-4 !text-[16px]">redeem</mat-icon>
+                </a>
+              </div>
+            </div>
+          } @empty {
+            <div
+              class="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-stone-200"
+            >
+              <mat-icon class="text-stone-300 !w-16 !h-16 !text-[64px] mb-3"
+                >card_giftcard</mat-icon
+              >
+              <p class="text-stone-500 font-serif text-lg">
+                No gift hampers found in this section right now.
+              </p>
+            </div>
+          }
+        </div>
+      }
+      @case ("deals") {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          @for (deal of products(); track deal._id) {
+            <div
+              class="group bg-white rounded-3xl overflow-hidden border border-rose-100 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative"
+            >
+              <!-- Discount Badge -->
+              <div class="absolute top-4 left-4 z-10">
+                <span
+                  class="bg-rose-600 text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-md tracking-wider uppercase flex items-center gap-1"
+                >
+                  <mat-icon class="w-3.5 h-3.5 text-[14px]">bolt</mat-icon>
+                  {{ deal.tags }}
+                </span>
+              </div>
+
+              <div>
+                <!-- Image Frame -->
+                <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
+                  <img
+                    [src]="localhost + deal.image"
+                    [alt]="deal.name"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+
+                <!-- Details -->
+                <div class="p-6">
+                  <h3
+                    class="font-black text-2xl text-slate-900 mb-4 group-hover:text-rose-600 transition-colors"
+                  >
+                    {{ deal.name }}
+                  </h3>
+
+                  <!-- Included Products (3-in-1 Breakdown) -->
+                  <div
+                    class="bg-slate-50/80 rounded-2xl p-4 border border-slate-100 text-xs space-y-3"
+                  >
+                    <span
+                      class="text-slate-400 font-bold uppercase text-[10px] tracking-wider block border-b border-slate-200/60 pb-2"
+                    >
+                      Bundle Includes (3 Items)
+                    </span>
+
+                    <!-- Perfume Item -->
+                    <div class="flex items-start gap-2.5">
+                      <mat-icon
+                        class="text-amber-700 shrink-0 !w-4 !h-4 !text-[18px]"
+                        >local_florist</mat-icon
+                      >
+                      <div>
+                        <span class="font-bold text-slate-900 block"
+                          >Perfume</span
+                        >
+                        <!-- <span class="text-slate-600">{{ deal.items.perfume }}</span> -->
+                      </div>
+                    </div>
+
+                    <!-- Balloon Item -->
+                    <div class="flex items-start gap-2.5">
+                      <mat-icon
+                        class="text-pink-500 shrink-0 !w-4 !h-4 !text-[18px]"
+                        >celebration</mat-icon
+                      >
+                      <div>
+                        <span class="font-bold text-slate-900 block"
+                          >Balloons</span
+                        >
+                        <!-- <span class="text-slate-600">{{ deal.items.balloon }}</span> -->
+                      </div>
+                    </div>
+
+                    <!-- Gift Item -->
+                    <div class="flex items-start gap-2.5">
+                      <mat-icon
+                        class="text-rose-700 shrink-0 !w-4 !h-4 !text-[18px]"
+                        >card_giftcard</mat-icon
+                      >
+                      <div>
+                        <span class="font-bold text-slate-900 block"
+                          >Gift Hamper</span
+                        >
+                        <!-- <span class="text-slate-600">{{ deal.items.gift }}</span> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pricing & Buy Action -->
+              <div
+                class="p-6 pt-0 mt-auto flex items-center justify-between border-t border-slate-100"
+              >
+                <div>
+                  @if (!deal.isSale && deal.salePrice == 0) {
+                    <span
+                      class="text-sm font-semibold text-slate-400 line-through"
+                      >{{ deal.price }}</span
+                    >
+                  }
+                  @if (deal.isSale && deal.salePrice != 0) {
+                    <div class="flex items-center gap-2">
+                      <span class="text-2xl font-black text-slate-900">{{
+                        deal.price
+                      }}</span>
+                      <span
+                        class="text-sm font-semibold text-slate-400 line-through"
+                        >{{ deal.salePrice }}</span
+                      >
+                    </div>
+                    <span class="text-[11px] font-bold text-emerald-600 block"
+                      >Save {{ deal.price - deal.salePrice }} instantly</span
+                    >
+                  }
+                </div>
+
+                <a
+                  [routerLink]="['/category', deal.categoryName, deal._id]"
+                  class="inline-flex items-center gap-2 bg-gradient-to-r from-rose-600 via-amber-600 to-rose-700 hover:opacity-95 text-white text-xs font-bold px-5 py-3 rounded-2xl transition-all shadow-md hover:shadow-rose-600/30"
+                >
+                  <span>Get deal </span>
+                  <mat-icon class="!w-4 !h-4 !text-[16px]"
+                    >shopping_cart</mat-icon
+                  >
+                </a>
+              </div>
+            </div>
+          } @empty {
+            <div
+              class="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200"
+            >
+              <mat-icon class="text-slate-300 !w-16 !h-16 !text-[64px] mb-3"
+                >local_fire_department</mat-icon
+              >
+              <p class="text-slate-500 font-bold text-lg">
+                No bundle deals available right now.
+              </p>
+            </div>
+          }
+        </div>
+      }
+    }
   </div>
 </div>

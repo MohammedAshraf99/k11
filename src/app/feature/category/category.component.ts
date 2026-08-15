@@ -1,87 +1,91 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ProductService } from '../../services/product.service';
+import { ProductCategory } from '../admin/admin.component';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { DiscountPercentPipe } from '../../core/pipe/discount-percent.pipe';
 
-  interface Perfume {
-    id: number;
-    name: string;
-    brand: string;
-    concentration: 'Extrait de Parfum' | 'Eau de Parfum' | 'Eau de Toilette';
-    price: number;
-    image: string;
-    family: string;
-    notes: {
-      top: string[];
-      heart: string[];
-      base: string[];
-    };
-  }
+interface product {
+  _id: number;
+  name: string;
+  categoryName: ProductCategory;
+  price: number;
+  image: string;
+  familyOrTheme: string;
+  issale: boolean;
+  tags: string[];
+  size: string[];
+  description: string;
+  isSale: boolean;
+  salePrice: number;
+  // Category-Specific Properties
+  notes?: { top: string; heart: string; base: string }; // Perfume
+  concentration?: string; // Perfume
+  dimensions?: string; // Balloon
+  heliumReady?: boolean; // Balloon
+  colorPalette?: string[]; // Balloon
+  boxContents?: string[]; // Gift
+  occasion?: string; // Gift
+  originalPrice?: number; // Hot Deals
+  bundleBreakdown?: { perfume: string; balloon: string; gift: string }; // Hot Deals
+}
 
 @Component({
   selector: 'app-category',
-  imports: [MatIcon,RouterLink],
- standalone:true,
+  imports: [
+    MatIcon,
+    RouterLink,
+    DecimalPipe,
+    CurrencyPipe,
+    DiscountPercentPipe,
+  ],
+  standalone: true,
   templateUrl: './category.component.html',
-  styleUrl: './category.component.css'
+  styleUrl: './category.component.css',
 })
-export class CategoryComponent {
-private route = inject(ActivatedRoute);
-
-  // Category title passed via URL parameter (e.g., /perfumes/Niche%20Fragrances)
-  categoryTitle = signal<string>('Luxury Fragrance Collection');
-
-  // Fragrances List
-  perfumes = signal<Perfume[]>([
-    {
-      id: 1,
-      name: 'Oud & Amber Elixir',
-      brand: 'Oriental Niche',
-      concentration: 'Extrait de Parfum',
-      price: 480,
-      image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500',
-      family: 'Woody Oriental',
-      notes: {
-        top: ['Saffron', 'Bergamot'],
-        heart: ['Damask Rose', 'Amber'],
-        base: ['Cambodian Oud', 'Cedarwood']
-      }
-    },
-    {
-      id: 2,
-      name: 'Floral Whisper',
-      brand: 'Maison Luxe',
-      concentration: 'Eau de Parfum',
-      price: 320,
-      image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=500',
-      family: 'Soft Floral',
-      notes: {
-        top: ['Orange Blossom', 'Pear'],
-        heart: ['Jasmine', 'French Lavender'],
-        base: ['White Musk', 'Bourbon Vanilla']
-      }
-    },
-    {
-      id: 3,
-      name: 'Citrus Zest Breeze',
-      brand: 'Aqua Notes',
-      concentration: 'Eau de Toilette',
-      price: 260,
-      image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500',
-      family: 'Fresh Citrus',
-      notes: {
-        top: ['Italian Lemon', 'Grapefruit'],
-        heart: ['Spearmint', 'Pink Pepper'],
-        base: ['Virginia Cedar', 'Light Amber']
-      }
-    }
-  ]);
+export class CategoryComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private ProductService = inject(ProductService);
+  categoryName = signal<ProductCategory>('perfumes');
+  // categoryTitle = signal<string>('Luxury Fragrance Collection');
+  products = signal<product[]>([]);
+  localhost = 'http://localhost:3000';
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      const titleParam = params.get('title');
-      if (titleParam) {
-        this.categoryTitle.set(decodeURIComponent(titleParam));
-      }
+      const categoryName =
+        (params.get('categoryName') as ProductCategory) ?? 'perfumes';
+      this.categoryName.set(categoryName);
+      this.getProducts(categoryName);
+      this.dealProducts(categoryName);
     });
   }
+
+  dealProducts(catName: string) {
+    this.categoryName.set(catName as ProductCategory);
+    if (catName === 'deals') {
+      this.ProductService.dealsProduct<product[]>().subscribe((res) => {
+        console.log(res.data);
+
+        for (let i = 0; i < res.data.length; i++) {
+          // this.categoryName = res.data[i].category as any;
+        }
+        this.products.set(res.data as product[]);
+      });
+    }
+  }
+
+  getProducts(categoryName: ProductCategory) {
+    if (categoryName !== 'deals') {
+      this.ProductService.getProducts<ProductCategory>(categoryName).subscribe(
+        (res) => {
+          this.products.set(res.data as any[]);
+        },
+      );
+    }
+  }
+  // Category title passed via URL parameter (e.g., /perfumes/Niche%20Fragrances)
+
+  // Fragrances List
 }

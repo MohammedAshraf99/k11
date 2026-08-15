@@ -25,12 +25,12 @@
 
     <!-- Center: Desktop Links (Hidden on Mobile) -->
     <div class="hidden items-center gap-1 md:flex">
-      <a
+      <!-- <a
         routerLink="/"
         class="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-amber-700 transition-all"
       >
         Products
-      </a>
+      </a> -->
       <a
         routerLink="category/deals"
         class="rounded-lg px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-all flex items-center gap-1"
@@ -92,8 +92,13 @@
         <a routerLink="/cart">
           <mat-icon>shopping_cart</mat-icon>
         </a>
+        <span
+          class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-[10px] font-bold text-white"
+        >
+          {{ cartCount | async }}</span
+        >
       </button>
-      <button
+      <!-- <button
         mat-icon-button
         class="text-gray-700 hover:text-amber-700 transition-colors"
         aria-label="liked_items"
@@ -103,7 +108,7 @@
             >favorite_border</mat-icon
           >
         </a>
-      </button>
+      </button> -->
     </div>
   </div>
 </nav>
@@ -134,17 +139,23 @@
 
   <!-- Sidebar Links -->
   <div class="mt-4 flex flex-col gap-1 overflow-y-auto flex-grow">
-    <a
+    <!-- <a
       routerLink="catgeory/"
       class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
     >
       <mat-icon class="text-gray-400">storefront</mat-icon> Products
-    </a>
+    </a> -->
     <a
       routerLink="category/deals"
       class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-red-600 hover:bg-red-50"
     >
       <mat-icon class="text-red-500">local_fire_department</mat-icon> Hot Deals
+    </a>
+    <a
+      routerLink="category/perfumes"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
+    >
+      <mat-icon class="h-4 w-4 text-amber-600">air</mat-icon> Perfumes
     </a>
 
     <a
@@ -165,7 +176,7 @@
 
     <!-- Mobile Accordion Section for Categories -->
     <div>
-      <button
+      <!-- <button
         (click)="isDropdownOpen = !isDropdownOpen"
         class="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
       >
@@ -179,10 +190,10 @@
         >
           expand_more
         </mat-icon>
-      </button>
+      </button> -->
 
       <!-- Sub-categories wrapper with height transition -->
-      <div
+      <!-- <div
         class="overflow-hidden transition-all duration-300 bg-gray-50/50 rounded-xl"
         [class]="isDropdownOpen ? 'max-h-48 py-1 mt-1 pl-6' : 'max-h-0'"
       >
@@ -204,7 +215,7 @@
         >
           • Gifts
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
 </aside>

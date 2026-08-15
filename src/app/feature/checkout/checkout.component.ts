@@ -1,54 +1,80 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ToasterService } from '../../services/toaster.service';
-import { MatIcon } from "@angular/material/icon";
+import { MatIcon } from '@angular/material/icon';
+import { CurrencyPipe } from '@angular/common';
+import { PaymentService } from '../../services/payment.service';
+import { GuestUserService } from '../../services/guest-user.service';
+
+declare var paypal: any;
 
 @Component({
-    selector: 'app-checkout',
-    imports: [MatIcon],
-    templateUrl: './checkout.component.html',
-    styleUrl: './checkout.component.css'
+  selector: 'app-checkout',
+  imports: [MatIcon],
+  templateUrl: './checkout.component.html',
+  styleUrl: './checkout.component.css',
 })
-export class CheckoutComponent{
-  private readonly toastService = inject(ToasterService);
-  private readonly router = inject(Router);
+export class CheckoutComponent implements OnInit {
+  @ViewChild('paypalRef', { static: false }) paypalElement!: ElementRef;
+  private paymentService = inject(PaymentService);
 
-  // Store information (Display details for bank wire)
-  readonly storeBankName = 'Oud Shop International Bank';
-  readonly storeIBAN = 'US76 OUDO 9876 5432 1000 99';
-  readonly storeSwift = 'OUDSUS33XXX';
+  isLoading = signal<boolean>(true);
+  totalAmount = 100;
 
-  // User input states managed via lightweight signals
-  readonly senderAccountName = signal<string>('');
-  readonly senderAccountNumber = signal<string>('');
-  readonly isProcessing = signal<boolean>(false);
+  ngOnInit(): void {
+    this.loadPaypalScript().then(() => {
+      this.isLoading.set(false);
+      // استخدام setTimeout لضمان ثبات عنصر DOM لـ paypalRef بعد انتهاء التمرير
+      setTimeout(() => this.renderPaypalButton(), 100);
+    }).catch(err => console.error('فشل تحميل PayPal SDK:', err));
+  }
 
-  // Form validation calculated reactively
-  readonly isFormValid = computed(() => {
-    const name = this.senderAccountName().trim();
-    const accNum = this.senderAccountNumber().trim();
-    // Validates name length and basic account number length requirements
-    return name.length >= 3 && accNum.length >= 8;
-  });
+  // دالة لتحميل السكربت ديناميكياً
+  private loadPaypalScript(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // إذا كان السكربت محملاً مسبقاً
+      if (typeof paypal !== 'undefined') {
+        resolve();
+        return;
+      }
 
-  handlePlaceOrder(): void {
-    if (!this.isFormValid() || this.isProcessing()) return;
+      const script = document.createElement('script');
+      // استبدل YOUR_CLIENT_ID برقم العميل الخاص بك
+      script.src = 'https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD';
+      script.onload = () => resolve();
+      script.onerror = (err) => reject(err);
+      document.body.appendChild(script);
+    });
+  }
 
-    this.isProcessing.set(true);
+  renderPaypalButton(): void {
+    if (!this.paypalElement) return;
 
-    // Simulate backend payment submission delay
-    setTimeout(() => {
-      this.isProcessing.set(false);
-      
-      // Fire success notification using our Angular 20 Toast Engine
-      this.toastService.show(
-        'Order submitted! We will verify your bank transfer immediately.', 
-        'success', 
-        5000
-      );
-
-      // Route customer to an order confirmation screen or home index
-      this.router.navigate(['/']);
-    }, 2500);
+    paypal.Buttons({
+      createOrder: () => {
+        return new Promise((resolve, reject) => {
+          this.paymentService.createPaypalOrder(this.totalAmount).subscribe({
+            next: (res) => resolve(res.orderID),
+            error: (err) => reject(err)
+          });
+        });
+      },
+      onApprove: (data: any) => {
+        return new Promise((resolve, reject) => {
+          this.paymentService.captureAndCreateOrder(data.orderID).subscribe({
+            next: (res) => resolve(res),
+            error: (err) => reject(err)
+          });
+        });
+      }
+    }).render(this.paypalElement.nativeElement);
   }
 }

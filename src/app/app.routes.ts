@@ -5,7 +5,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'product/:id',
+    path: 'category/:catName/:id',
     loadComponent: () =>
       import('./feature/item-details/item-details.component').then(
         (m) => m.ItemDetailsComponent,
@@ -30,34 +30,19 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./feature/cart/cart.component').then((c) => c.CartComponent),
   },
-   {
-    path: 'category/perfumes',
-    loadComponent: () =>
-      import('./feature/category/category.component').then((c) => c.CategoryComponent),
-  },
-  
-   {
-    path: 'category/balloons',
-    loadComponent: () =>
-      import('./feature/balloon/balloon.component').then((c) => c.BalloonComponent),
-  },
   {
-    path: 'category/gifts',
+    path: 'category/:categoryName',
     loadComponent: () =>
-      import('./feature/gifts/gifts.component').then((c) => c.GiftsComponent),
-  },
-
-   {
-    path: 'category/deals',
-    loadComponent: () =>
-      import('./feature/deals/deals.component').then((c) => c.HotdealsComponent),
-  }, {
-    path: 'admin',
-    loadComponent: () =>
-      import('./feature/admin/admin.component').then(
-        (c) => c.AdminComponent,
+      import('./feature/category/category.component').then(
+        (c) => c.CategoryComponent,
       ),
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./feature/admin/admin.routes').then((r) => r.ADMIN_ROUTES),
+  },
+
   {
     path: '**',
     loadComponent: () =>

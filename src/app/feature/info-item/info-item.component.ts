@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import { ProductService } from '../../services/product.service';
 
 @Component({
     selector: 'app-info-item',
@@ -9,6 +10,11 @@ import { MatIcon } from '@angular/material/icon';
     styleUrl: './info-item.component.css'
 })
 export class InfoItemComponent {
+
+
+private productService = inject(ProductService)
+
+products(){}
 
   currentActiveCard = 0;
 

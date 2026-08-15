@@ -1,57 +1,82 @@
 <section class="my-2">
-  <div class="py-2 text-2xl font-bold text-center mb-4 text-amber-600">
-    new collection For You
-  </div>
-  <section
-    #cardContainer
-    (scroll)="onScroll(cardContainer)"
-    class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 py-4 px-4 m-auto max-w-7xl mt-2 md:grid md:grid-cols-4 md:px-8 no-scrollbar"
-  >
-    <!-- تغليف كل كارت بـ div لضبط حجمه على شاشات الهواتف والـ Snap -->
-    <div
-      class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
-    >
-      <app-card />
-    </div>
-
-    <div
-      class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
-    >
-      <app-card />
-    </div>
-
-    <div
-      class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
-    >
-      <app-card />
-    </div>
-
-    <div
-      class="snap-center shrink-0 w-[85vw] sm:w-[45vw] md:w-auto flex justify-center items-center"
-    >
-      <app-card />
-    </div>
-  </section>
-
-  <!-- نقاط التحكم السفلى (Bullets) - تظهر فقط على الهواتف وتختفي في الشاشات الكبيرة (md:hidden) -->
-  <div class="flex justify-center gap-2 mt-3 md:hidden">
-    @for (dot of [0, 1, 2, 3]; track index) {
-      <button
-        (click)="scrollToCard(cardContainer, index)"
-        [class]="
-          activeCardIndex === index ? 'w-6 bg-amber-600' : 'w-2 bg-gray-300'
-        "
-        class="h-2 rounded-full transition-all duration-300"
-        aria-label="Go to slide"
-      ></button>
-    }
+  <div class="py-2 text-2xl font-bold text-center">
+    <ng-content> </ng-content>
   </div>
 
-  <div class="flex justify-center items-center">
-    <a routerLink="/">
-      <button class="px-4 py-2 cursor-pointer bg-amber-600 text-white rounded">
-        All Products
-      </button>
-    </a>
+  <div class="relative group max-w-7xl m-auto px-4 md:px-8">
+    <!-- زر السهم الأيسر (للشاشات الكبيرة) -->
+    <button
+      type="button"
+      (click)="scrollNav(cardContainer, 'left')"
+      class="hidden md:flex absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-100 backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 disabled:opacity-30"
+      aria-label="Scroll left"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2.5"
+        stroke="currentColor"
+        class="w-5 h-5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.75 19.5 8.25 12l7.5-7.5"
+        />
+      </svg>
+    </button>
+
+    <!-- زر السهم الأيمن (للشاشات الكبيرة) -->
+    <button
+      type="button"
+      (click)="scrollNav(cardContainer, 'right')"
+      class="hidden md:flex absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-100 backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 disabled:opacity-30"
+      aria-label="Scroll right"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2.5"
+        stroke="currentColor"
+        class="w-5 h-5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m8.25 4.5 7.5 7.5-7.5 7.5"
+        />
+      </svg>
+    </button>
+
+    <!-- حاوية المنتجات -->
+    <section
+      #cardContainer
+      (scroll)="onScroll(cardContainer)"
+      class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 pb-4 px-1 no-scrollbar"
+    >
+      @for (product of products; track product._id) {
+        <div
+          class="snap-start shrink-0 w-[85vw] md:w-[calc((100%-3*1rem)/4)] flex justify-center items-center"
+        >
+          <app-card [product]="product" class="w-full" />
+        </div>
+      }
+    </section>
+
+    <!-- نقاط التحكم السفلى (تظهر فقط على الهواتف) -->
+    <div class="flex justify-center gap-2 mt-3 md:hidden">
+      @for (dot of products; track $index) {
+        <button
+          (click)="scrollToCard(cardContainer, $index)"
+          [class]="
+            activeCardIndex === $index ? 'w-6 bg-amber-600' : 'w-2 bg-gray-300'
+          "
+          class="h-2 rounded-full transition-all duration-300"
+          aria-label="Go to slide"
+        ></button>
+      }
+    </div>
   </div>
 </section>

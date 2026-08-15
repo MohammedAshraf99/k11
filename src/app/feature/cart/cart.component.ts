@@ -1,71 +1,113 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { EmptyComponent } from "../empty/empty.component";
+import { EmptyComponent } from '../empty/empty.component';
+import { CartService } from '../../services/cart.service';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { ProductCategory } from '../admin/admin.component';
+import { ToasterComponent } from '../toaster/toaster.component';
+import { ToasterService, ToastType } from '../../services/toaster.service';
+import { GuestUserService } from '../../services/guest-user.service';
+import { QtyButtonComponent } from '../qty-button/qty-button.component';
+
+interface product {
+  _id?: number;
+  name: string;
+  category: ProductCategory;
+  price: number;
+  image: string;
+  familyOrTheme: string;
+  issale: boolean;
+  tags: string[];
+  size: string[];
+  description: string;
+  isSale: boolean;
+  salePrice: number;
+  // Category-Specific Properties
+  notes?: { top: string; heart: string; base: string }; // Perfume
+  concentration?: string; // Perfume
+  dimensions?: string; // Balloon
+  heliumReady?: boolean; // Balloon
+  colorPalette?: string[]; // Balloon
+  boxContents?: string[]; // Gift
+  occasion?: string; // Gift
+  originalPrice?: number; // Hot Deals
+  bundleBreakdown?: { perfume: string; balloon: string; gift: string }; // Hot Deals;
+  productModel: 'Balloon' | 'Gift' | 'Perfume';
+  quantity: number;
+  selectedSize?: string;
+}
 
 interface CartItem {
-  id: number;
-  name: string;
-  brand: string;
-  price: number;
+  _id?: number;
+  product: product;
   quantity: number;
-  selectedSize: string;
-  image: string;
+  productModel: string;
 }
 
 @Component({
-    selector: 'app-cart',
-    standalone: true,
-    imports: [MatIcon, RouterLink, EmptyComponent],
+  selector: 'app-cart',
+  standalone: true,
+  imports: [MatIcon, AsyncPipe,QtyButtonComponent,CurrencyPipe, RouterLink, EmptyComponent],
   templateUrl: './cart.component.html',
-    styleUrl: './cart.component.css'
+  styleUrl: './cart.component.css',
 })
-export class CartComponent {
-// 1. Reactive state using Writable Signals
-  readonly cartItems = signal<CartItem[]>([
-    {
-      id: 1,
-      name: 'Royal Oud Intense',
-      brand: 'Arabian Luxury',
-      price: 185.00,
-      quantity: 1,
-      selectedSize: '100ml',
-      image: 'https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=300&q=80'
-    },
-    {
-      id: 2,
-      name: 'Pure White Musk',
-      brand: 'Oud Shop Originals',
-      price: 95.00,
-      quantity: 2,
-      selectedSize: '50ml',
-      image: 'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=300&q=80'
-    }
-  ]);
+export class CartComponent implements OnInit {
+  readonly localhost = 'http://localhost:3000';
+  private cartService = inject(CartService);
+  private toaster = inject(ToasterService);
+  cartItems = signal<CartItem[]>([]);
+  spinnerItemId = signal<number | null>(null);
+  countSpinner: boolean = false;
+
+  ngOnInit(): void {
+    this.getCart();
+  }
+
+  spinnerFlapping() {
+    this.countSpinner = !this.countSpinner;
+  }
+  // 1. Reactive state using Writable Signals
+
+  toasterMessage(Msg: string, type: ToastType, duration: number) {
+    this.toaster.show(Msg, type, duration);
+  }
+
+  getCart() {
+    this.cartService.getCart().subscribe((response) => {
+      const items =
+        (response.data && (response.data as any).items) || response.data || [];
+      return this.cartItems.set(items as CartItem[]);
+    });
+  }
 
   // 2. High-performance caching using Computed Signals
-  readonly subtotal = computed(() => 
-    this.cartItems().reduce((total, item) => total + (item.price * item.quantity), 0)
+  readonly subtotal = computed(() =>
+    this.cartItems().reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0,
+    ),
   );
 
   // 3. Modifying state requires using the built-in .update() method
-  increaseQty(itemId: number): void {
-    this.cartItems.update(items =>
-      items.map(item => item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item)
-    );
-  }
-
-  decreaseQty(itemId: number): void {
-    this.cartItems.update(items =>
-      items.map(item => 
-        item.id === itemId && item.quantity > 1 
-          ? { ...item, quantity: item.quantity - 1 } 
-          : item
+  onQuantityChange(itemId: number, newQuantity: number): void {
+    this.cartItems.update((items) =>
+      items.map((item) =>
+        item._id === itemId ? { ...item, quantity: newQuantity } : item
       )
     );
   }
 
   removeItem(itemId: number): void {
-    this.cartItems.update(items => items.filter(item => item.id !== itemId));
+    let isDeleted = confirm('do you want to delete this product');
+    if (!isDeleted) {
+      return;
+    }
+    this.cartService.removeFromCart(itemId as any).subscribe(() => {
+      this.toasterMessage('product deleted successfully', 'success', 2);
+    });
+    this.cartItems.update((items) =>
+      items.filter((item) => item._id !== itemId),
+    );
   }
 }

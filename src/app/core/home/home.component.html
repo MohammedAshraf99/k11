@@ -1,4 +1,20 @@
 <app-carousel />
-<app-card-carousel />
+
+<!-- 1. المجموعات الجديدة -->
+<app-card-carousel [products]="products()">
+  New Collection For You
+</app-card-carousel>
+
+<!-- 2. مميزات المتجر (الشريط الفاخر) -->
 <app-info-item />
-<app-card-carousel />
+
+<!-- 3. العروض الساخنة -->
+<app-card-carousel [products]="dealProducts()"> Hot Deals </app-card-carousel>
+
+<!-- 🌟 إضافة بانر ترويجي فاخر في المنتصف لكسر التكرار -->
+<app-promobanner></app-promobanner>
+
+<!-- 4. التخفيضات -->
+<app-card-carousel [products]="saleProducts()">
+  Collection Sale Products For You
+</app-card-carousel>

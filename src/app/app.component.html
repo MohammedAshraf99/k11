@@ -1,17 +1,16 @@
-<app-navbar />
-<main class="page-transition-wrapper">
-  <!-- 1. النقاط الثلاث بألوان الهوية الرئيسية -->
-  <div class="page-dots-loader" aria-hidden="true">
-    <span class="bg-amber-600"></span>
-    <span class="bg-amber-600"></span>
-    <span class="bg-amber-600"></span>
-  </div>
-
-  <!-- 2. محتوى الصفحات المُتحرك -->
-  <div class="page-content-animated">
-    <router-outlet></router-outlet>
-  </div>
-</main>
-
-<app-footer />
+@if (!isLoading()) {
+  <app-navbar />
+  <main class="page-transition-wrapper">
+    <!-- 1. النقاط الثلاث بألوان الهوية الرئيسية -->
+    <div class="page-dots-loader" aria-hidden="true">
+      <span class="bg-amber-600"></span>
+      <span class="bg-amber-600"></span>
+      <span class="bg-amber-600"></span>
+    </div>
+    <router-outlet />
+  </main>
+  <app-footer />
+}
 <app-toaster />
+
+<router-outlet name="admin" />

@@ -33,7 +33,7 @@
             </div>
           } @else {
             <!-- Native Angular 20 Optimized For Loop with Tracking -->
-            @for (item of cartItems(); track item.id) {
+            @for (item of cartItems(); track item._id) {
               <div
                 class="bg-white rounded-2xl p-4 md:p-6 border border-gray-100 shadow-sm flex gap-4 md:gap-6 relative group transition-all hover:shadow-md"
               >
@@ -42,8 +42,8 @@
                   class="w-24 h-24 md:w-32 md:h-32 bg-gray-50 rounded-xl overflow-hidden border border-gray-100 p-2 flex items-center justify-center shrink-0"
                 >
                   <img
-                    [src]="item.image"
-                    [alt]="item.name"
+                    [src]="localhost + item.product.image"
+                    [alt]="item.product.name"
                     class="w-full h-full object-contain"
                   />
                 </div>
@@ -54,24 +54,26 @@
                     <div>
                       <span
                         class="text-[10px] font-bold uppercase tracking-widest text-amber-600"
-                        >{{ item.brand }}</span
+                        >{{ item.product.category }}</span
                       >
                       <h3
                         class="text-base md:text-lg font-bold text-gray-900 leading-tight mt-0.5"
                       >
-                        {{ item.name }}
+                        {{ item.product.name }}
                       </h3>
-                      <p class="text-xs text-gray-400 mt-1">
-                        Volume:
-                        <span class="text-gray-700 font-medium">{{
-                          item.selectedSize
-                        }}</span>
-                      </p>
+                      @if (item.productModel == "Perfume") {
+                        <p class="text-xs text-gray-400 mt-1">
+                          Volume:
+                          <span class="text-gray-700 font-medium"
+                            >{{ item.product.size }} ML</span
+                          >
+                        </p>
+                      }
                     </div>
 
                     <!-- Absolute item removal trigger using the signal update method -->
                     <button
-                      (click)="removeItem(item.id)"
+                      (click)="removeItem(item._id!)"
                       class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-gray-50"
                       aria-label="Remove item"
                     >
@@ -82,42 +84,14 @@
                   </div>
 
                   <!-- Price & Quantity Control Row -->
-                  <div class="flex justify-between items-center mt-4">
-                    <!-- Quantity Incrementor -->
-                    <div
-                      class="flex items-center justify-between border border-gray-200 rounded-lg p-1 bg-gray-50 w-24"
-                    >
-                      <button
-                        (click)="decreaseQty(item.id)"
-                        class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-md transition-colors"
-                      >
-                        <mat-icon class="!h-3 !w-3 !text-[12px]"
-                          >remove</mat-icon
-                        >
-                      </button>
-                      <span class="font-bold text-gray-900 text-xs">{{
-                        item.quantity
-                      }}</span>
-                      <button
-                        (click)="increaseQty(item.id)"
-                        class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 rounded-md transition-colors"
-                      >
-                        <mat-icon class="!h-3 !w-3 !text-[12px]">add</mat-icon>
-                      </button>
-                    </div>
-
-                    <!-- Price breakdown (Individual vs Multiplied accumulated total) -->
-                    <div class="text-right">
-                      <span class="text-lg font-black text-gray-950"
-                        >${{ item.price * item.quantity }}</span
-                      >
-                      @if (item.quantity > 1) {
-                        <p class="text-[10px] text-gray-400">
-                          ${{ item.price }} each
-                        </p>
-                      }
-                    </div>
-                  </div>
+                  <app-qty-button
+                    [itemId]="item._id!"
+                    [quantity]="item.quantity ?? 1"
+                    [unitPrice]="item.product.price ?? 0"
+                    (quantityUpdated)="onQuantityChange(item._id!, $event)"
+                 
+                   >
+                  </app-qty-button>
                 </div>
               </div>
             }
@@ -140,18 +114,18 @@
               <div class="flex justify-between text-gray-500">
                 <span>Subtotal</span>
                 <!-- Reads cleanly from high-performance computed signal caching -->
-                <span class="font-semibold text-gray-900"
-                  >${{ subtotal() }}</span
-                >
+                <span class="font-semibold text-gray-900">{{
+                  subtotal() | currency: "GBP" : "symbol" : "1.0-0"
+                }}</span>
               </div>
               <div class="flex justify-between text-gray-500">
                 <span>Estimated Shipping</span>
                 <span class="font-semibold text-green-600">Free</span>
               </div>
-              <div class="flex justify-between text-gray-500">
+              <!-- <div class="flex justify-between text-gray-500">
                 <span>Tax</span>
-                <span class="font-semibold text-gray-900">$0.00</span>
-              </div>
+                <span class="font-semibold text-gray-900">{{0.00  | currency:'GBP':'symbol':'1.0-0'}}</span>
+              </div> -->
 
               <hr class="border-gray-100 my-1" />
 
@@ -159,7 +133,9 @@
                 class="flex justify-between text-base font-bold text-gray-950"
               >
                 <span>Total Amount</span>
-                <span class="text-xl font-black">${{ subtotal() }}</span>
+                <span class="text-xl font-black">{{
+                  subtotal() | currency: "GBP" : "symbol" : "1.0-0"
+                }}</span>
               </div>
             </div>
 
