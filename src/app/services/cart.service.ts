@@ -19,7 +19,7 @@ export class CartService {
   private http = inject(HttpClient);
   private guestUserService = inject(GuestUserService);
 
-  private apiUrl = environment.apiUrl+'cart';
+  private apiUrl = environment.apiUrl+'/cart';
 
   getguestId() {
     this.guestUserService.getGuestId();

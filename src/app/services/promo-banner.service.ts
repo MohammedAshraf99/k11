@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Banner, ApiResponse, PromoBanner } from '../core/models/api';
+import { environment } from '../../enviroments/environment';
 
 export interface UploadImageResponse {
   success: boolean;
@@ -15,7 +16,7 @@ export interface UploadImageResponse {
 })
 export class PromoBannerService {
 private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/promo-banners'; // استبدل بالرابط الخاص بك
+  private apiUrl = environment.apiUrl+'/promo-banners'; // استبدل بالرابط الخاص بك
 
   getBanners(): Observable<ApiResponse<PromoBanner[]>> {
     return this.http.get<ApiResponse<PromoBanner[]>>(this.apiUrl);

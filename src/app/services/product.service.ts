@@ -15,7 +15,7 @@ import { environment } from '../../enviroments/environment';
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl+'products';
+  private apiUrl = environment.apiUrl+'/products';
 
   /**
    * جلب جميع المنتجات حسب النوع (perfumes | balloons | gifts)

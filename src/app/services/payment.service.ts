@@ -8,7 +8,7 @@ import { environment } from '../../enviroments/environment';
 })
 export class PaymentService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl+'payments';
+  private apiUrl = environment.apiUrl+'/payments';
 
   createPaypalOrder(amount: number): Observable<{ success: boolean; orderID: string }> {
     return this.http.post<{ success: boolean; orderID: string }>(`${this.apiUrl}/paypal/create-order`, { amount });

@@ -10,7 +10,7 @@ export class OrderService {
 
   
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl+'payments';
+  private apiUrl = environment.apiUrl+'/payments';
 
   getOrders(): Observable<{ success: boolean; data: any[] }> {
     return this.http.get<{ success: boolean; data: any[] }>(`${this.apiUrl}/orders`);

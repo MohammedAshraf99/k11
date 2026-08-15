@@ -15,7 +15,7 @@ export interface UploadImageResponse {
 })
 export class BannerService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl + 'banners';
+  private apiUrl = environment.apiUrl + '/banners';
   getBanners(): Observable<ApiResponse<Banner[]>> {
     return this.http.get<ApiResponse<Banner[]>>(this.apiUrl);
   }
