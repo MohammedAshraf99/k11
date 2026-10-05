@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { ToasterService } from '../../services/toaster.service';
 import { MatIcon } from "@angular/material/icon";
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-toaster',
-    imports: [MatIcon],
+    imports: [MatIcon,NgClass],
     templateUrl: './toaster.component.html',
     styleUrl: './toaster.component.css'
 })

@@ -9,6 +9,8 @@ import { CartService } from '../../services/cart.service';
 import { GuestUserService } from '../../services/guest-user.service';
 import { IsNewThisWeekPipe } from '../../core/pipe/is-new-this-week.pipe';
 import { DiscountPercentPipe } from '../../core/pipe/discount-percent.pipe';
+import { environment } from '../../../enviroments/environment';
+import { Product } from '../../core/models/api';
 
 @Component({
   selector: 'app-card',
@@ -21,26 +23,20 @@ export class CardComponent {
   private toaster = inject(ToasterService);
   private cartService = inject(CartService);
   private guestService = inject(GuestUserService);
-  @Input() product: any;
-  localhost = 'http://localhost:3000';
+  @Input()
+  product: Product | any;
+  localhost = environment.baseUrl ;
 
-  addToCart(addToCart: string, quantity: number, catName: any): void {
+  addToCart(addToCart: string, quantity: number): void {
     this.cartService
       .addToCart({
         productId: addToCart,
         guestId: this.guestService.getGuestId(),
         quantity: quantity || 1,
-        productModel: catName,
       })
-      .subscribe(res => {if(res.success) this.success()});
-
-
+      .subscribe();
   }
 
-success(){
-        this.toaster.show('Product added to cart!');
-
-}
 
   addToWishlist(): void {
     this.toaster.show('Product added to wishlist!');

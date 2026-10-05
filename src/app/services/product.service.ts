@@ -2,10 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   ApiResponse,
-  ProductType,
-  PerfumeItem,
-  BalloonItem,
-  GiftItem,
+  IProduct,
 } from '../core/models/api';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../enviroments/environment';
@@ -15,57 +12,40 @@ import { environment } from '../../enviroments/environment';
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl+'/products';
+  private apiUrl = environment.apiUrl + '/products';
 
   /**
    * جلب جميع المنتجات حسب النوع (perfumes | balloons | gifts)
    */
-  getProducts<T = PerfumeItem | BalloonItem | GiftItem>(
-    type: ProductType,
-  ): Observable<ApiResponse<T[]>> {
-    return this.http.get<ApiResponse<T[]>>(`${this.apiUrl}/${type}`);
+  categoryProducts(type: string): Observable<ApiResponse<IProduct[]>> {
+    return this.http.get<ApiResponse<IProduct[]>>(`${this.apiUrl}/category/${type}`);
   }
-  Products<T =any>(): Observable<
-    ApiResponse<T[]>
-  > {
-    return this.http.get<ApiResponse<T[]>>(`${this.apiUrl}/all`);
+  Products<IProduct>(): Observable<ApiResponse<IProduct[]>> {
+    return this.http.get<ApiResponse<IProduct[]>>(`${this.apiUrl}`);
   }
 
   /**
    * جلب منتج واحد بالتفصيل عن طريق الـ ID
    */
-  getProductById<T = PerfumeItem | BalloonItem | GiftItem>(
-    type: ProductType,
-    id: string,
-  ): Observable<ApiResponse<T>> {
-    return this.http.get<ApiResponse<T>>(`${this.apiUrl}/${type}/${id}`);
+  getProductById(id: string): Observable<ApiResponse<IProduct>> {
+    return this.http.get<ApiResponse<IProduct>>(`${this.apiUrl}/${id}`);
   }
 
   /**
    * إضافة منتج جديد (Admin)
    */
-  createProduct<T>(
-    type: ProductType,
-    productData: Partial<T>,
-  ): Observable<ApiResponse<T>> {
-    return this.http.post<ApiResponse<T>>(
-      `${this.apiUrl}/${type}`,
-      productData,
-    );
+  createProduct<T>(productData: Partial<T>): Observable<ApiResponse<T>> {
+    return this.http.post<ApiResponse<T>>(`${this.apiUrl}`, productData);
   }
 
   /**
    * تعديل بيانات منتج (Admin)
    */
   updateProduct<T>(
-    type: ProductType,
     id: string,
     productData: Partial<T>,
   ): Observable<ApiResponse<T>> {
-    return this.http.put<ApiResponse<T>>(
-      `${this.apiUrl}/${type}/${id}`,
-      productData,
-    );
+    return this.http.put<ApiResponse<T>>(`${this.apiUrl}/${id}`, productData);
   }
 
   saleProduct<T>(): Observable<ApiResponse<T>> {
@@ -76,24 +56,17 @@ export class ProductService {
     return this.http.get<ApiResponse<T>>(`${this.apiUrl}/deals`);
   }
 
-    productCount(): Observable<{
-  success: boolean;
-  categoryCount: {name:any,count:number}[];
-}> {
-    return this.http.get<{
-  success: boolean;
-  categoryCount: {name:any,count:number}[];
-}>(`${this.apiUrl}/count`);
+  productCount(): Observable<ApiResponse<{ category: string; count: number }[]>> {
+    return this.http.get<ApiResponse<{ category: string; count: number }[]>>(`${this.apiUrl}/count`);
   }
 
   /**
    * حذف منتج (Admin)
    */
   deleteProduct(
-    type: ProductType,
     id: string | number,
   ): Observable<ApiResponse<null>> {
-    return this.http.delete<ApiResponse<null>>(`${this.apiUrl}/${type}/${id}`);
+    return this.http.delete<ApiResponse<null>>(`${this.apiUrl}/${id}`);
   }
 
   uploadImage(formData: FormData): Observable<{ imageUrl: string }> {

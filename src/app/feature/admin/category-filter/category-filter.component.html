@@ -11,15 +11,28 @@
     All ({{ 0 }})
   </button> -->
 
+  <a
+    (click)="activeCategoryFilter.set('all')"
+    [class.bg-white]="activeCategoryFilter() === 'all'"
+    [class.text-slate-900]="activeCategoryFilter() === 'all'"
+    [class.shadow-xs]="activeCategoryFilter() === 'all'"
+    class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 cursor-pointer whitespace-nowrap"
+    (click)="specCategory.emit('all')"
+    [routerLink]="['/admin', { outlets: { admin: ['products', 'all'] } }]"
+  >
+    {{ 'all' }} 
+  </a>
   @for (cat of categories(); track cat) {
-    <button
-      (click)="activeCategoryFilter.set(cat.name || 'all')"
-      [class.bg-white]="activeCategoryFilter() === cat.name"
-      [class.text-slate-900]="activeCategoryFilter() === cat.name"
-      [class.shadow-xs]="activeCategoryFilter() === cat.name"
+    <a
+      (click)="activeCategoryFilter.set(cat.category )"
+      [class.bg-white]="activeCategoryFilter() === cat.category"
+      [class.text-slate-900]="activeCategoryFilter() === cat.category"
+      [class.shadow-xs]="activeCategoryFilter() === cat.category"
       class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 cursor-pointer whitespace-nowrap"
+      (click)="specCategory.emit(cat.category)"
+      [routerLink]="['/admin', { outlets: { admin: ['products', cat.category] } }]"
     >
-      <a (click)="specCategory.emit(cat.name )" [routerLink]="['/admin']" [queryParams]="{ category: cat.name }"> {{ cat.name }} ({{ cat.count }}) </a>
-    </button>
+      {{ cat.category }} ({{ cat.count }})
+    </a>
   }
 </div>

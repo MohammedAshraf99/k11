@@ -7,7 +7,7 @@
     <nav class="flex flex-col gap-2 text-sm">
       <a class="p-3 rounded-xl hover:bg-slate-800 transition">Dashboard</a>
       <a
-        [routerLink]="['product']"
+        [routerLink]="['products', 'all']"
         routerLinkActive="bg-amber-500 text-slate-950 font-bold"
         class="p-3 rounded-xl hover:bg-slate-800 transition"
         >Products</a
@@ -22,8 +22,28 @@
         [routerLink]="['promo-banner']"
         routerLinkActive="bg-amber-500 text-slate-950 font-bold"
         class="p-3 rounded-xl hover:bg-slate-800 transition"
-        >promoBanner</a
+        >PromoBanner</a
       >
+        <a
+        [routerLink]="['checkout-list']"
+        routerLinkActive="bg-amber-500 text-slate-950 font-bold"
+        class="p-3 rounded-xl hover:bg-slate-800 transition"
+        >Checkout list</a
+      >
+              <a
+        [routerLink]="['announcement']"
+        routerLinkActive="bg-amber-500 text-slate-950 font-bold"
+        class="p-3 rounded-xl hover:bg-slate-800 transition"
+        >Announcement</a
+      >
+             <a
+        [routerLink]="['coupon']"
+        routerLinkActive="bg-amber-500 text-slate-950 font-bold"
+        class="p-3 rounded-xl hover:bg-slate-800 transition"
+        >Coupons</a
+      >
+
+      
     </nav>
   </aside>
 

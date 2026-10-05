@@ -1,10 +1,10 @@
-<div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-  <h2 class="text-xl font-bold mb-4">الدفع عبر PayPal</h2>
+<div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-4">
+  <h2 class="text-xl font-bold mb-4">Pay with PayPal</h2>
 
   @if (isLoading()) {
-    <p class="text-gray-500 text-center py-4">جاري تحميل خيارات الدفع...</p>
+    <p class="text-gray-500 text-center py-4">Loading payment options...</p>
   }
 
-  <!-- حاوية أزرار PayPal -->
+  <!-- PayPal Buttons Container -->
   <div #paypalRef></div>
 </div>

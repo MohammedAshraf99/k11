@@ -1,0 +1,55 @@
+@if (isVisible() && announcements().length > 0) {
+  <div
+    class="h-[70px] bg-gradient-to-r from-rose-600 via-amber-600 to-rose-600 text-white flex items-center relative z-1 shadow-md overflow-hidden border-b border-white/10"
+  >
+    <div
+      class="absolute left-3 z-20 bg-rose-700/80 backdrop-blur-sm rounded-lg p-1 shadow"
+    >
+      <button
+        (click)="closeBanner()"
+        class="text-white/80 hover:text-white transition-colors cursor-pointer block"
+        title=""
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="marquee-wrapper w-full flex items-center overflow-hidden whitespace-nowrap"
+    >
+      <div
+        class="marquee-content flex items-center gap-12 font-medium text-sm md:text-base"
+      >
+        @for (item of announcements(); track item._id) {
+          <a
+            [href]="item.link || '#'"
+            class="hover:underline flex items-center gap-2 text-yellow-200"
+          >
+            <span>🔥</span>
+            <span>{{ item.text }}</span>
+          </a>
+        }
+        @for (item of announcements(); track "dup-" + item._id) {
+          <a
+            [href]="item.link || '#'"
+            class="hover:underline flex items-center gap-2 text-yellow-200"
+          >
+            <span>🔥</span>
+            <span>{{ item.text }}</span>
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+}

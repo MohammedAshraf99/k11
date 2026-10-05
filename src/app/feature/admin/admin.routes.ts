@@ -14,16 +14,45 @@ export const ADMIN_ROUTES: Routes = [
         loadComponent: () =>
           import('./banner/banner.component').then((m) => m.BannerComponent),
       },
-        {
+      {
         path: 'promo-banner',
 
         loadComponent: () =>
-          import('./promobannermange/promobannermange.component').then((m) => m.PromobannermangeComponent),
+          import('./promobannermange/promobannermange.component').then(
+            (m) => m.PromobannermangeComponent,
+          ),
       },
       {
-        path: 'product',
+        path: 'checkout-list',
+
         loadComponent: () =>
-          import('./product/product.component').then((m) => m.ProductComponent),
+          import('./checkoutlist/checkoutlist.component').then(
+            (m) => m.CheckoutlistComponent,
+          ),
+      },
+
+      
+      {
+        path: 'products/:id',
+        loadComponent: () =>
+          import('./product-admin/product-admin.component').then(
+            (m) => m.ProductComponent,
+          ),
+      },
+         {
+        path: 'announcement',
+        loadComponent: () =>
+          import('./announcement-admin/announcement-admin.component').then(
+            (m) => m.AnnouncementAdminComponent,
+          ),
+      },
+      
+         {
+        path: 'coupon',
+        loadComponent: () =>
+          import('./coupon-modal/coupon-modal.component').then(
+            (c) => c.CouponModalComponent,
+          ),
       },
     ],
   },

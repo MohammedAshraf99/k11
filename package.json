@@ -22,6 +22,7 @@
     "@angular/router": "^19.2.25",
     "@fingerprintjs/fingerprintjs": "^5.2.0",
     "@tailwindcss/postcss": "^4.3.3",
+    "bson": "^7.3.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.1"

@@ -1,0 +1,85 @@
+@if (isOpen()) {
+  <!-- Overlay / Backdrop -->
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-md p-4 animate-fade-in"
+  >
+    <!-- Modal Card (Increased width & padding, sleek layout) -->
+    <div
+      class="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden text-center p-8 md:p-10 border border-slate-100 transform transition-all scale-100"
+    >
+      <!-- Close Button -->
+      <button
+        (click)="closeModal()"
+        class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-full p-2 transition-all cursor-pointer focus:outline-none"
+        aria-label="Close modal"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Icon Header (Larger container with glowing accent ring) -->
+      <div
+        class="w-24 h-24 bg-gradient-to-tr from-amber-100 to-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-inner ring-8 ring-indigo-50/50"
+      >
+        🎁
+      </div>
+
+      <!-- Typography -->
+      <h3 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+        Special Offer For You!
+      </h3>
+      <p class="text-base text-slate-600 mb-8 max-w-md mx-auto leading-relaxed">
+        Unlock an exclusive
+        <span
+          class="font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md"
+          >{{ coupon()?.discountValue }}% OFF</span
+        >
+        discount on your first order. Use the coupon code below at checkout:
+      </p>
+
+      <!-- Promo Code Box (Enhanced padding & design) -->
+      <div
+        class="flex flex-col sm:flex-row items-center justify-between border-2 border-dashed border-indigo-300 bg-indigo-50/60 p-4 rounded-2xl mb-8 gap-3 sm:gap-0"
+      >
+        <span
+          class="font-mono font-black text-2xl text-indigo-900 tracking-widest pl-3 uppercase"
+        >
+          {{ coupon()?.code }}
+        </span>
+        <button
+          (click)="copyCode()"
+          class="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl transition-all shadow-md hover:shadow-indigo-200 active:scale-95"
+        >
+          {{ isCopied() ? "Copied! ✓" : "Copy Code" }}
+        </button>
+      </div>
+
+      <!-- Primary CTA Action -->
+      <button
+        (click)="shopNow()"
+        class="w-full py-4 bg-gradient-to-r from-indigo-600 via-indigo-700 to-slate-900 hover:from-indigo-700 hover:to-slate-800 text-white font-extrabold text-base rounded-2xl shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all transform active:scale-[0.99]"
+      >
+        Shop Now & Save Big
+      </button>
+
+      <!-- Secondary Dismiss -->
+      <button
+        (click)="closeModal()"
+        class="mt-5 text-sm font-medium text-slate-400 hover:text-slate-600 transition-colors block mx-auto hover:underline"
+      >
+        No thanks, I'll pay full price
+      </button>
+    </div>
+  </div>
+}

@@ -6,9 +6,8 @@ import { GuestUserService } from './guest-user.service';
 import { environment } from '../../enviroments/environment';
 
 export interface AddToCartPayload {
-  guestId?: string; // Optional for guest users
+  guestId?: string;
   productId: string;
-  productModel: 'balloon' | 'gift' | 'perfume';
   quantity: number;
 }
 
@@ -37,24 +36,31 @@ export class CartService {
    * جلب محتويات السلة الخاصة بالمستخدم
    */
   getCart(): Observable<ApiResponse<Cart>> {
+  this.guestUserService.guestId();
     return this.http
       .get<
         ApiResponse<Cart>
-      >(this.apiUrl, { params: { guestId: this.guestUserService.getGuestId() } })
+      >(this.apiUrl, {
+        params: {
+          guestId: this.guestUserService.guestId() ?? '',
+        },
+      })
       .pipe(
         tap((response) => {
-          this.cartItemCount.next(response.data?.count);
+          this.cartItemCount.next(response.data.totalItems!);
           this.updateCartState(response.data);
         }),
       );
   }
 
   cartCount(): Observable<{ count: number }> {
+
+
     return this.http
       .get<{
         count: number;
       }>(this.apiUrl + '/count', {
-        params: { guestId: this.guestUserService.getGuestId() },
+        params: { guestId: this.guestUserService.guestId() ?? '' },
       })
       .pipe(
         tap((res) => {
@@ -84,6 +90,12 @@ export class CartService {
       .pipe(tap((response) => this.updateCartState(response.data)));
   }
 
+    updateCartCoupon(
+    coupon: string,
+  ): Observable<ApiResponse<Cart>> {
+    return this.http
+      .put<ApiResponse<Cart>>(`${this.apiUrl}`, { coupon })
+  }
   /**
    * حذف عنصر محدد من السلة
    */

@@ -12,6 +12,12 @@ import { AsyncPipe } from '@angular/common';
     styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
+ categories = [
+    { name: 'Perfumes', route: 'category/perfumes', icon: 'air' },
+    { name: 'Balloons', route: 'category/balloons', icon: 'cake' },
+    { name: 'Gifts', route: 'category/gifts', icon: 'featured_play_list' },
+    { name: 'Roses', route: 'category/roses', icon: 'local_florist' }
+  ];
   private cartService = inject(CartService);
   isMobileMenuOpen = false;
   isDropdownOpen = false;

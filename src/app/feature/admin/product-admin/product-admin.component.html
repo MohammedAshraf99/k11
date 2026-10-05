@@ -33,7 +33,7 @@
     <!-- Category Tabs & Search Bar -->
     <div class="flex flex-col md:flex-row items-center justify-between gap-4">
       <app-category-filter
-      (specCategory)="allProducts($event)"
+        (specCategory)="categoryProducts($event)"
       ></app-category-filter>
 
       <div class="relative w-full md:w-72">
@@ -62,24 +62,20 @@
                 <th scope="col" class="py-4 px-6">Product</th>
                 <th scope="col" class="py-4 px-6">Category</th>
                 <th scope="col" class="py-4 px-6">Price</th>
-                <th scope="col" class="py-4 px-6">
-                  Category Specific Properties
-                </th>
-                <th scope="col" class="py-4 px-6 text-right">Actions</th>
+                <th scope="col" class="py-4 px-6">active</th>
+                <th scope="col" class="py-4 px-6 text-center">Actions</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
               @for (product of products(); track product._id) {
-
-                    <tr class="hover:bg-slate-50/60 transition-colors" 
+                <tr
+                  class="hover:bg-slate-50/60 transition-colors"
                   app-table-admin
-                    [product]="product"
-                    (editModel)="openEditModal()"
-                    (Product)="editProduct($event)"
-                    (message)="toaster($event)"
-                  >
-              </tr>
-                }
+                  [product]="product"
+                  (editModel)="openEditModal(product)"
+                  (Product)="editProduct($event)"
+                ></tr>
+              }
             </tbody>
           </table>
         </div>
@@ -89,9 +85,8 @@
 
   @if (isModalOpen()) {
     <app-modal
-      (deleteMessage)="toaster($event)"
       (close)="closeModal($event)"
+      [productData]="selectedProduct()"
     ></app-modal>
   }
 </div>
-

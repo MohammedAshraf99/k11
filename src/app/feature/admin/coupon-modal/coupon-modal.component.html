@@ -1,0 +1,310 @@
+<div class="p-6 bg-slate-950 min-h-screen text-white dir-ltr">
+  <!-- Top Bar -->
+  <div
+    class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4"
+  >
+    <div>
+      <h1 class="text-xl font-serif text-amber-400 font-bold">
+        Coupon & Discount Management
+      </h1>
+      <p class="text-xs text-slate-400 mt-1">
+        Create, edit, and track promotional coupons & entrance modal banners
+      </p>
+    </div>
+    <button
+      (click)="openAddModal()"
+      class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer"
+    >
+      <span>➕ Add New Coupon</span>
+    </button>
+  </div>
+
+  <!-- Coupons Table -->
+  @if (isLoading()) {
+    <div class="text-center py-12 text-slate-500 text-sm">
+      Loading coupons...
+    </div>
+  } @else if (coupons().length > 0) {
+    <div
+      class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl"
+    >
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-800/60 text-amber-400 border-b border-slate-800">
+          <tr>
+            <th class="p-4">Code</th>
+            <th class="p-4">Discount</th>
+            <th class="p-4">Min Spend / Cap</th>
+            <th class="p-4">Expiration</th>
+            <th class="p-4 text-center">Redeemed</th>
+            <th class="p-4 text-center">Status</th>
+            <th class="p-4 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/50">
+          @for (coupon of coupons(); track coupon._id) {
+            <tr class="hover:bg-slate-800/30 transition-colors">
+              <!-- Code & Modal Indicator -->
+              <td class="p-4 font-mono font-bold text-amber-300">
+                <div class="flex items-center gap-2">
+                  <span class="tracking-wider text-sm">{{ coupon.code }}</span>
+                  @if (coupon.isPromoModal) {
+                    <span
+                      class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 text-[9px] px-1.5 py-0.5 rounded font-sans"
+                    >
+                      Modal
+                    </span>
+                  }
+                </div>
+              </td>
+
+              <!-- Discount Info -->
+              <td class="p-4">
+                <span
+                  class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-1 rounded-md font-semibold"
+                >
+                  {{
+                    coupon.discountType === "percentage"
+                      ? coupon.discountValue + "%"
+                      : (coupon.discountValue | currency)
+                  }}
+                </span>
+              </td>
+
+              <!-- Min Spend / Max Cap -->
+              <td class="p-4 text-slate-300">
+                <div>
+                  Min:
+                  <span class="text-slate-100 font-semibold">{{
+                    coupon.minOrderAmount | currency
+                  }}</span>
+                </div>
+                @if (
+                  coupon.discountType === "percentage" &&
+                  coupon.maxDiscountAmount
+                ) {
+                  <div class="text-[10px] text-slate-400">
+                    Cap: {{ coupon.maxDiscountAmount | currency }}
+                  </div>
+                }
+              </td>
+
+              <!-- Expiration -->
+              <td class="p-4 text-slate-400">
+                {{ coupon.expirationDate }}
+              </td>
+
+              <!-- Usage -->
+              <td class="p-4 text-center text-slate-300">
+                <span class="font-semibold">{{ coupon.usedCount || 0 }}</span>
+                <span class="text-slate-500">
+                  / {{ coupon.usageLimit ? coupon.usageLimit : "∞" }}</span
+                >
+              </td>
+
+              <!-- Status Badge -->
+              <td class="p-4 text-center">
+                <span
+                  class="px-2 py-1 rounded-full text-[10px] font-semibold"
+                  [ngClass]="
+                    coupon.isActive
+                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                      : 'bg-slate-800 text-slate-500 border border-slate-700'
+                  "
+                >
+                  {{ coupon.isActive ? "Active" : "Disabled" }}
+                </span>
+              </td>
+
+              <!-- Actions -->
+              <td class="p-4 text-center">
+                <div class="flex items-center justify-center gap-2">
+                  <button
+                    (click)="openEditModal(coupon)"
+                    class="bg-slate-800 hover:bg-slate-700 text-amber-400 px-3 py-1.5 rounded-lg border border-slate-700 transition-all cursor-pointer"
+                  >
+                    Edit ✏️
+                  </button>
+                  <button
+                    (click)="deleteCoupon(coupon._id!)"
+                    [disabled]="deletingId() === coupon._id"
+                    class="bg-red-950/60 hover:bg-red-900 text-red-300 px-3 py-1.5 rounded-lg border border-red-800/40 transition-all disabled:opacity-50 cursor-pointer"
+                  >
+                    @if (deletingId() === coupon._id) {
+                      <span
+                        class="inline-block w-3 h-3 border border-red-200 border-t-transparent rounded-full animate-spin"
+                      ></span>
+                    } @else {
+                      <span>Delete 🗑️</span>
+                    }
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div
+      class="bg-slate-900 border border-slate-800 rounded-2xl p-12 text-center text-slate-400"
+    >
+      <p class="mb-4">No coupons available at the moment.</p>
+      <button
+        (click)="openAddModal()"
+        class="bg-amber-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs cursor-pointer"
+      >
+        Add First Coupon
+      </button>
+    </div>
+  }
+
+  <!-- Modal (Add / Edit) -->
+  @if (isModalOpen()) {
+    <div
+      class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 shadow-2xl text-white dir-ltr"
+      >
+        <h2 class="text-lg font-serif font-bold mb-4 text-amber-400">
+          {{ isEditMode() ? "Edit Coupon Details" : "Add New Coupon" }}
+        </h2>
+
+        <!-- Modal Form Binding -->
+ <form [formGroup]="couponForm">
+  <div class="space-y-4 text-xs">
+    
+    <!-- Code & Discount Type -->
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label class="block text-slate-400 mb-1">Coupon Code *</label>
+        <input
+          formControlName="code"
+          type="text"
+          placeholder="e.g. WELCOME20"
+          class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-amber-300 font-mono tracking-wider uppercase outline-none focus:border-amber-500"
+        />
+      </div>
+
+      <div>
+        <label class="block text-slate-400 mb-1">Discount Type *</label>
+        <select
+          formControlName="discountType"
+          class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white outline-none focus:border-amber-500"
+        >
+          <option value="percentage">Percentage (%)</option>
+          <option value="fixed">Fixed Amount</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Discount Value & Max Discount -->
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label class="block text-slate-400 mb-1">Discount Value *</label>
+        <input
+          formControlName="discountValue"
+          type="number"
+          min="0"
+          placeholder="e.g. 10"
+          class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white outline-none focus:border-amber-500"
+        />
+      </div>
+
+      <div>
+        <label class="block text-slate-400 mb-1">Max Discount Amount ($)</label>
+        <input
+          formControlName="maxDiscountAmount"
+          type="number"
+          min="0"
+          placeholder="Optional"
+          class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white outline-none focus:border-amber-500"
+        />
+      </div>
+    </div>
+
+    <!-- Min Order Amount & Usage Limit -->
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label class="block text-slate-400 mb-1">Min Order Amount ($)</label>
+        <input
+          formControlName="minOrderAmount"
+          type="number"
+          min="0"
+          placeholder="0"
+          class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white outline-none focus:border-amber-500"
+        />
+      </div>
+
+      <div>
+        <label class="block text-slate-400 mb-1">Usage Limit</label>
+        <input
+          formControlName="usageLimit"
+          type="number"
+          min="1"
+          placeholder="Optional"
+          class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white outline-none focus:border-amber-500"
+        />
+      </div>
+    </div>
+
+    <!-- Expiration Date -->
+    <div>
+      <label class="block text-slate-400 mb-1">Expiration Date</label>
+      <input
+        formControlName="expirationDate"
+        type="date"
+        class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-white outline-none focus:border-amber-500"
+      />
+    </div>
+
+    <!-- Toggles -->
+    <div class="grid grid-cols-2 gap-3 pt-2">
+      <label
+        class="flex items-center gap-2 bg-slate-800 p-2.5 rounded-lg border border-slate-700 cursor-pointer"
+      >
+        <input
+          type="checkbox"
+          formControlName="isActive"
+          class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-amber-500"
+        />
+        <span class="text-slate-300">Is Active</span>
+      </label>
+
+      <label
+        class="flex items-center gap-2 bg-slate-800 p-2.5 rounded-lg border border-slate-700 cursor-pointer"
+      >
+        <input
+          type="checkbox"
+          formControlName="isPromoModal"
+          class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-amber-500"
+        />
+        <span class="text-slate-300">Set as Entrance Modal</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="mt-6 flex justify-end gap-3">
+    <button
+      type="button"
+      (click)="closeModal()"
+      class="px-4 py-2 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors rounded-lg text-xs"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      (click)="saveCoupon()"
+      class="px-4 py-2 bg-amber-500 hover:bg-amber-400 transition-colors text-slate-950 font-bold rounded-lg text-xs"
+    >
+      {{ isEditMode() ? "Save Changes" : "Add Coupon" }}
+    </button>
+  </div>
+</form>
+        <!-- Modal Actions -->
+       
+      </div>
+    </div>
+  }
+</div>

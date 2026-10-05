@@ -8,7 +8,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   let headers = req.headers;
   const guestId = userID.getGuestId();
   const genGuestId = userID.visitorId();
-  console.log(guestId);
   if (guestId) {
     // إذا كنت تستخدم Guest ID قم بإرساله في Header مخصص
     headers = headers.set('x-guest-id', guestId);

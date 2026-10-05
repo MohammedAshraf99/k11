@@ -11,11 +11,11 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class QtyButtonComponent {
 private cartService = inject(CartService);
-
   // Inputs using Angular Signals API
   itemId = input.required<any>();
   quantity = input.required<number>();
   unitPrice = input.required<number>();
+  unitSalePrice = input<number>();
 
   // Output event to notify parent component to refresh or update state
   quantityUpdated = output<number>();
@@ -25,33 +25,26 @@ private cartService = inject(CartService);
 
   increaseQty(): void {
     const newCount = this.quantity() + 1;
-    this.updateQuantity(newCount, 'Product modified successfully');
+    this.updateQuantity(newCount);
   }
-
   decreaseQty(): void {
     if (this.quantity() <= 1) {
       // Return early and notify user
       return;
     }
     const newCount = this.quantity() - 1;
-    this.updateQuantity(newCount, 'Product modified successfully');
+    this.updateQuantity(newCount);
   }
-
-  private updateQuantity(newCount: number, successMsg: string): void {
+  private updateQuantity(newCount: number): void {
     this.isLoading.set(true);
-
-    this.cartService.updateCartItemQuantity(this.itemId(), newCount).subscribe({
-      next: (res) => {
+    this.cartService.updateCartItemQuantity(this.itemId(), newCount).subscribe(
+     res => {
         if (res.success) {
           this.quantityUpdated.emit(newCount);
         }
-      },
-      error: (err) => {
-        console.error('Failed to update quantity', err);
-      },
-      complete: () => {
-        this.isLoading.set(false);
-      },
-    });
+    this.isLoading.set(false);
+
+    }
+  );
   }
 }

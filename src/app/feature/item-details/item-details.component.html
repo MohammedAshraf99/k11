@@ -2,6 +2,18 @@
   <div
     class="max-w-7xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden"
   >
+    <div
+      class="text-xs px-3 mx-10 pt-10 flex items-center gap-2 font-medium tracking-widest uppercase opacity-80"
+    >
+      <a routerLink="/home" class="hover:underline">Home</a>
+      <span>/</span>
+      <a [routerLink]="['/category', product().category]">{{
+        product().category
+      }}</a>
+      <span>/</span>
+      <span>{{ product().name }}</span>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-12">
       <!-- القسم الأيسر: معرض الصور (Product() Image Gallery) -->
       <section class="flex flex-col gap-4">
@@ -14,16 +26,26 @@
             [alt]="product().name"
             class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105"
           />
-          <span
-            *ngIf="product().isSale"
-            class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
-          >
-            -{{
-              product().price
-                | discountPercent: product().salePrice
-                | number: "1.0-0"
-            }}% OFF
-          </span>
+          <div class="absolute top-4 left-4 flex flex-col gap-2">
+            @if (product().isSale) {
+              <span
+                class="w-fit bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
+              >
+                -{{
+                  product().price
+                    | discountPercent: product().salePrice!
+                    | number: "1.0-0"
+                }}% OFF
+              </span>
+            }
+            @if (product().deal) {
+              <span
+                class="w-fit bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
+              >
+                LIMITED OFFER
+              </span>
+            }
+          </div>
         </div>
 
         <!-- الصور المصغرة بالأسفل للتنقل -->
@@ -32,11 +54,11 @@
             *ngFor="let img of product().image"
             (click)="setActiveImage(img)"
             [class]="
-              activeImage === img && product().categoryName === 'perfumes'
+              activeImage === img && product().category === 'perfumes'
                 ? 'border-amber-700'
-                : activeImage === img && product().categoryName === 'balloons'
+                : activeImage === img && product().category === 'balloons'
                   ? 'border-pink-500 '
-                  : activeImage === img && product().categoryName === 'gifts'
+                  : activeImage === img && product().category === 'gifts'
                     ? 'border-rose-900 '
                     : 'border-[#faf7f2]'
             "
@@ -58,16 +80,18 @@
           <div class="flex items-center justify-between">
             <span
               [class]="
-                product().categoryName === 'balloons'
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700  text-white text-xs font-bold'
-                  : product().categoryName === 'perfumes'
-                    ? 'bg-amber-50 text-amber-600 border border-amber-200 text-xs font-bold'
-                    : product().categoryName === 'gifts'
-                      ? 'bg-rose-900 hover:bg-rose-950  border-rose-200 text-xs font-bold text-rose-50'
-                      : ''
+                product().category === 'perfumes'
+                  ? 'bg-amber-600 font-black text-amber-50'
+                  : product().category === 'balloons'
+                    ? 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-bold px-3 py-2 rounded transition-all shadow-md hover:shadow-pink-500/25'
+                    : product().category === 'gifts'
+                      ? 'bg-rose-900 hover:bg-rose-950 text-rose-50'
+                      : product().category === 'roses'
+                        ? 'bg-rose-600 font-bold text-white hover:bg-rose-700'
+                        : ''
               "
               class="px-3 py-1.5 rounded-full uppercase tracking-wider border inline-block"
-              >{{ product().categoryName }}</span
+              >{{ product().category }}</span
             >
             <!-- <div class="flex items-center gap-1 text-amber-500 text-sm font-medium">
               <mat-icon class="h-4 w-4 text-[16px]">star</mat-icon>
@@ -82,7 +106,7 @@
           >
             {{ product().name }}
           </h1>
-          @if (product().categoryName === "perfumes") {
+          @if (product().category === "perfumes") {
             <p class="text-sm text-gray-400 mt-1">
               Concentration:
               <span class="text-gray-700 font-medium">{{
@@ -92,13 +116,21 @@
           }
           <!-- السعر -->
           <div class="flex items-baseline gap-3 mt-4">
-            <span class="text-3xl font-black text-gray-950">{{
-              product().price | currency: "GBP" : "symbol" : "1.0-0"
-            }}</span>
+            <span class="text-3xl font-black text-gray-950">
+              {{ product().price | currency: "GBP" : "symbol" : "1.0-0" }}</span
+            >
             @if (product().isSale) {
               <span class="text-lg text-gray-400 line-through"
                 >{{
                   product().salePrice | currency: "GBP" : "symbol" : "1.0-0"
+                }}
+              </span>
+
+              <span class="text-lg text-white px-4 bg-green-600 rounded">
+                SAVE
+                {{
+                  product().salePrice! - product().price
+                    | currency: "GBP" : "symbol" : "1.0-0"
                 }}
               </span>
             }
@@ -122,13 +154,15 @@
               @for (tag of product().tags; track $index) {
                 <span
                   [class]="
-                    product().categoryName === 'perfumes'
-                      ? 'bg-amber-600 font-black text-amber-900'
-                      : product().categoryName === 'balloons'
+                    product().category === 'perfumes'
+                      ? 'bg-amber-600 font-black text-amber-50'
+                      : product().category === 'balloons'
                         ? 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-bold px-3 py-2 rounded transition-all shadow-md hover:shadow-pink-500/25'
-                        : product().categoryName === 'gifts'
+                        : product().category === 'gifts'
                           ? 'bg-rose-900 hover:bg-rose-950 text-rose-50'
-                          : ''
+                          : product().category === 'roses'
+                            ? 'bg-rose-600 font-bold text-white hover:bg-rose-700'
+                            : ''
                   "
                   class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-gray-200/50"
                 >
@@ -140,7 +174,7 @@
 
           <!-- خيارات الحجم (Size Selector) -->
 
-          @if (product().categoryName === "perfumes") {
+          @if (product().category === "perfumes") {
             <div class="mt-6">
               <h4
                 class="text-xs font-bold text-gray-900 uppercase tracking-wider"
@@ -148,13 +182,11 @@
                 Select Volume
               </h4>
               <div class="flex gap-3 mt-2">
-                @for (size of product().size; track size) {
+                @for (size of ["50", "100", "200"]; track size) {
                   <button
                     (click)="selectedSize = size"
                     ,
-                    (click)="
-                      chooseSize(product().categoryName, product()._id, size)
-                    "
+                    (click)="chooseSize(product()._id!, size)"
                     ,
                     [class]="
                       selectedSize === size
@@ -197,22 +229,22 @@
           </div> -->
 
           <!-- زر الإضافة للسلة -->
-          {{ !spinner }}
           <button
             [disabled]="spinner"
             [ngClass]="{
-              'bg-amber-600 font-black text-amber-900 hover:bg-amber-700':
-                product().categoryName === 'perfumes',
+              'bg-amber-600 font-black text-amber-50 hover:bg-amber-700':
+                product().category === 'perfumes',
               'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xs font-bold px-5 py-3 rounded-2xl shadow-md':
-                product().categoryName === 'balloons',
+                product().category === 'balloons',
               'bg-rose-900 hover:bg-rose-950 border-rose-200 text-xs font-bold text-rose-50':
-                product().categoryName === 'gifts',
+                product().category === 'gifts',
+              'bg-rose-600 font-bold text-white hover:bg-rose-700 shadow-sm':
+                product().category === 'roses',
             }"
             class="flex-1 text-white font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 tracking-wide text-sm uppercase disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
-            (click)="handleAddToCart(product()._id, product().categoryName)"
+            (click)="handleAddToCart(product()._id!)"
           >
             @if (spinner) {
-              <!-- Inline Loading Spinner -->
               <span
                 class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
               ></span>
@@ -227,4 +259,6 @@
     </div>
   </div>
 </div>
-<app-card-carousel />
+<div class="my-4">
+  <app-card-carousel [products]="products()"> YOU MAY LIKE </app-card-carousel>
+</div>

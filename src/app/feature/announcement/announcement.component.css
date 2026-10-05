@@ -1,0 +1,31 @@
+.marquee-wrapper {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
+.marquee-content {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 10s linear infinite;
+  -webkit-animation: marquee 10s linear infinite;
+}
+
+/* يتوقف الشريط عند وضع المؤشر عليه لتسهيل القراءة والنقر */
+.marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* حركة التمرير من اليمين إلى اليسار ليدعم RTL */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
