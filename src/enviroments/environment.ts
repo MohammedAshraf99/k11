@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: '/api',
   //   apiUrl: 'https://backend-olive-xi-57.vercel.app/api',
 
   baseUrl: 'http://localhost:3000', // لعرض الصور
