@@ -9,6 +9,7 @@ import {
 import { PromoBanner } from '../../../core/models/api';
 import { PromoBannerService } from '../../../services/promo-banner.service';
 import { map } from 'rxjs';
+import { environment } from '../../../../enviroments/environment';
 
 @Component({
   selector: 'app-promobannermange',
@@ -18,7 +19,7 @@ import { map } from 'rxjs';
 })
 export class PromobannermangeComponent {
   private bannerService = inject(PromoBannerService);
-  localhost = 'localhost:3000'
+  localhost = environment.baseUrl;
   // States using Signals
   banners = signal<PromoBanner[]>([]);
   isLoading = signal<boolean>(false);

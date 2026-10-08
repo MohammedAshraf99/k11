@@ -25,7 +25,7 @@ export class BannerComponent implements OnInit {
     subtitle: '',
     discountTag: '',
     ctaLink: '/perfumes',
-    ctaText: 'تسوق الآن',
+    ctaText: 'SHOP NOW',
   });
 
   selectedFile: File | null = null;
@@ -54,7 +54,7 @@ export class BannerComponent implements OnInit {
       subtitle: '',
       discountTag: '',
       ctaLink: '/perfumes',
-      ctaText: 'تسوق الآن',
+      ctaText: 'SHOP NOW',
     });
     this.selectedFile = null;
     this.isModalOpen.set(true);
@@ -82,12 +82,12 @@ export class BannerComponent implements OnInit {
   saveBanner(): void {
     const data = this.formBanner();
     if (!this.isEditMode() && !this.selectedFile) {
-      alert('يرجى تحديد صورة للبانر الجديد');
+      alert('kindly choose a photo for banner !');
       return;
     }
 
     if (!data.title) {
-      alert('العنوان مطلوب');
+      alert('title required');
       return;
     }
 
@@ -97,7 +97,7 @@ export class BannerComponent implements OnInit {
     formData.append('subtitle', data.subtitle || '');
     formData.append('discountTag', data.discountTag || '');
     formData.append('ctaLink', data.ctaLink || '/perfumes');
-    formData.append('ctaText', data.ctaText || 'تسوق الآن');
+    formData.append('ctaText', data.ctaText || 'SHOP NOW');
 
     if (this.selectedFile) {
       console.log(this.selectedFile);
@@ -114,7 +114,7 @@ export class BannerComponent implements OnInit {
             this.closeModal();
           }
         },
-        error: (err) => alert('خطأ في التعديل'),
+        error: (err) => alert(' error on editing banner '),
         complete: () => this.isSaving.set(false),
       });
     } else {
@@ -125,14 +125,14 @@ export class BannerComponent implements OnInit {
             this.closeModal();
           }
         },
-        error: (err) => alert('خطأ في الإضافة'),
+        error: (err) => alert(' ERROR IN ADDING '),
         complete: () => this.isSaving.set(false),
       });
     }
   }
 
   deleteBanner(id: string): void {
-    if (!confirm('هل أنت تأكد من إزالة هذا البانر؟')) return;
+    if (!confirm('ARE YOU SURE ABOUT DELETING THIS PHOTO ?')) return;
 
     this.deletingId.set(id);
     this.bannerService.deleteBanner(id).subscribe({

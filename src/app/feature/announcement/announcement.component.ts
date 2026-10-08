@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { Announcement } from '../../core/models/api';
+import { AnnouncmentService } from '../../services/announcment.service';
 
 
 
@@ -12,9 +13,9 @@ import { Announcement } from '../../core/models/api';
   styleUrl: './announcement.component.css'
 })
 export class AnnouncementComponent {
-private http = inject(HttpClient);
+  private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
-
+  private announcement = inject(AnnouncmentService); 
   announcements = signal<Announcement[]>([]);
   isVisible = signal<boolean>(true);
 
@@ -28,9 +29,8 @@ private http = inject(HttpClient);
       this.fetchAnnouncements();
     }
   }
-
   fetchAnnouncements(): void {
-    this.http.get<{ status: string, data: Announcement[] }>('http://localhost:3000/api/announcements/active')
+this.announcement.getActiveAnnouncements()
       .subscribe({
         next: (res) => {
           if (res.data && res.data.length > 0) {
