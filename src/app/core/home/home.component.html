@@ -1,18 +1,17 @@
 <app-carousel />
-
-<!-- 1. المجموعات الجديدة -->
+@if(products().length > 0) {
 <app-card-carousel [products]="products()"> JUST ARRIVE </app-card-carousel>
-
-<!-- 2. مميزات المتجر (الشريط الفاخر) -->
+}
 <app-info-item />
 
-<!-- 3. العروض الساخنة -->
+@if(dealProducts().length > 0) {
 <app-card-carousel [products]="dealProducts()"> HOT DEALS </app-card-carousel>
-
-<!-- 🌟 إضافة بانر ترويجي فاخر في المنتصف لكسر التكرار -->
+}
 <app-promobanner></app-promobanner>
 
-<!-- 4. التخفيضات -->
-<app-card-carousel [products]="saleProducts()">
-  ON SPOT HUGE COLLECTION OF SALE PRODUCT FOR YOU</app-card-carousel
+
+@if(saleProducts().length > 0) {
+  <app-card-carousel [products]="saleProducts()">
+    ON SPOT HUGE COLLECTION OF SALE PRODUCT FOR YOU</app-card-carousel
 >
+  }

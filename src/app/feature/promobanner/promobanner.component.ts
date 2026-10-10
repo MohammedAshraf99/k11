@@ -20,7 +20,6 @@ export class PromobannerComponent implements OnInit {
       .pipe(map((res) => res.data))
       .subscribe({
         next: (banners) => {
-          console.log(banners);
           this.activeBanner.set(banners[0]);
         },
         error: (err) => console.error('Error loading banner:', err),

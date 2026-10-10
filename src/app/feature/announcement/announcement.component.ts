@@ -36,7 +36,7 @@ this.announcement.getActiveAnnouncements()
           if (res.data && res.data.length > 0) {
             this.announcements.set(res.data);
           } else {
-            this.isVisible.set(false); // إخفاء البانر في حال عدم وجود إعلانات سارية
+            this.isVisible.set(false); 
           }
         },
         error: () => this.isVisible.set(false)

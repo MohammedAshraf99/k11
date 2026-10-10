@@ -65,13 +65,13 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
   nextSlide(): void {
     const total = this.banners().length;
-    if (total <= 1) return; // 🛑 حماية من التنقل لو كان هناك عنصر واحد فقط
+    if (total <= 1) return; 
     this.currentSlide = (this.currentSlide + 1) % total;
   }
 
   prevSlide(): void {
     const total = this.banners().length;
-    if (total <= 1) return; // 🛑 حماية من التنقل لو كان هناك عنصر واحد فقط
+    if (total <= 1) return; 
     this.currentSlide = (this.currentSlide - 1 + total) % total;
   }
 
