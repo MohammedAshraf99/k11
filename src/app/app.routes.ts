@@ -43,11 +43,6 @@ export const routes: Routes = [
     title: (route) => `${route.paramMap.get('categoryName')}`, // Dynamic title
   },
   {
-    path: 'admin',
-    loadChildren: () =>
-      import('./feature/admin/admin.routes').then((r) => r.ADMIN_ROUTES),
-  },
-  {
     path: 'orders',
     loadComponent: () =>
       import('./core/orders-history/orders-history.component').then(

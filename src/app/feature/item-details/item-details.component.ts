@@ -1,17 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { ToasterService } from '../../services/toaster.service';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { CardCarouselComponent } from '../card-carousel/card-carousel.component';
 import { ProductService } from '../../services/product.service';
 import { IProduct } from '../../core/models/api';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ProductCategory } from '../admin/admin.component';
 import { CartService } from '../../services/cart.service';
 import { GuestUserService } from '../../services/guest-user.service';
 import { DiscountPercentPipe } from '../../core/pipe/discount-percent.pipe';
-import { QtyButtonComponent } from '../qty-button/qty-button.component';
-import { finalize } from 'rxjs/operators';
+import { environment } from '../../../enviroments/environment';
 
 @Component({
   selector: 'app-item-details',
@@ -30,7 +27,7 @@ export class ItemDetailsComponent implements OnInit {
   private productservice = inject(ProductService);
   private cartservice = inject(CartService);
   private guestService = inject(GuestUserService);
-  localhost = 'http://localhost:3000';
+  localhost = environment.baseUrl;
   private route = inject(ActivatedRoute);
   private productService = inject(ProductService);
 
@@ -61,7 +58,7 @@ export class ItemDetailsComponent implements OnInit {
     this.getId();
     this.activeImage = this.product().image[0];
     this.selectedSize = this.product().size || '50'; // اختيار 100ml افتراضياً
-  this.getSaleProduct()
+    this.getSaleProduct();
   }
   getId() {
     this.route.paramMap.subscribe((params) => {
@@ -74,7 +71,6 @@ export class ItemDetailsComponent implements OnInit {
   getProductDetails(productId: string) {
     this.productservice.getProductById(productId).subscribe({
       next: (res) => {
-
         this.activeImage = res.data.image[0];
         this.product.set(res.data as any);
       },
@@ -99,16 +95,16 @@ export class ItemDetailsComponent implements OnInit {
         guestId: this.guestService.getGuestId(),
         quantity: this.quantity,
       })
-      .subscribe(res =>  this.spinner = false);
+      .subscribe((res) => (this.spinner = false));
   }
 
   setActiveImage(imgUrl: string): void {
     this.activeImage = imgUrl;
   }
 
- getSaleProduct() {
+  getSaleProduct() {
     this.productService.saleProduct().subscribe((res: any) => {
-    this.products.set(res.data);
+      this.products.set(res.data);
     });
   }
 }

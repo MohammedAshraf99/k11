@@ -2,7 +2,6 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductService } from '../../services/product.service';
-import { ProductCategory } from '../admin/admin.component';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { DiscountPercentPipe } from '../../core/pipe/discount-percent.pipe';
 import { ProductsService } from '../../services/products.service';
@@ -55,7 +54,7 @@ export class CategoryComponent implements OnInit {
   }
 
   dealProducts(catName: string) {
-    this.categoryName.set(catName as ProductCategory);
+    this.categoryName.set(catName);
     if (catName === 'deals') {
       this.ProductService.dealsProduct<IProduct[]>().subscribe((res) => {
         for (let i = 0; i < res.data.length; i++) {
